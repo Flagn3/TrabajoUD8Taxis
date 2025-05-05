@@ -3,15 +3,16 @@ package model;
 public class Usuario {
 
 	private int id;
-	private String nombre, password, username, rol, email;
+	private String nombre, apellido, password, username, rol, email;
 	
 	public Usuario() {
 		super();
 	}
 
-	public Usuario(String nombre, String password, String username, String rol, String email) {
+	public Usuario(String nombre, String apellido,String password, String username, String rol, String email) {
 		super();
 		this.nombre = nombre;
+		this.apellido = apellido;
 		this.password = password;
 		this.username = username;
 		this.rol = rol;
@@ -24,6 +25,14 @@ public class Usuario {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	
+	public String getApellido() {
+		return apellido;
+	}
+	
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	}
 
 	public String getPassword() {
