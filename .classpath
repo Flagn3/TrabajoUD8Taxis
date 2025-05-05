@@ -6,5 +6,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="libs/mysql-connector-java-8.0.15.jar"/>
+	<classpathentry kind="lib" path="libs/jfreechart-1.5.0.jar"/>
+	<classpathentry kind="lib" path="libs/openpdf-2.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
