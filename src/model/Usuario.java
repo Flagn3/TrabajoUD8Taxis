@@ -9,7 +9,7 @@ public class Usuario {
 		super();
 	}
 
-	public Usuario(String nombre, String apellido,String password, String username, String rol, String email) {
+	public Usuario(String nombre, String apellido, String password, String username, String rol, String email) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -73,9 +73,10 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", password=" + password + ", username=" + username
-				+ ", rol=" + rol + ", email=" + email + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", password=" + password
+				+ ", username=" + username + ", rol=" + rol + ", email=" + email + "]";
 	}
+
 	
 	
 	
