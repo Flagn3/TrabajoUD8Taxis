@@ -8,6 +8,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import java.awt.Font;
+import java.awt.Color;
 
 public class LoginView extends JFrame {
 
@@ -40,6 +41,8 @@ public class LoginView extends JFrame {
 		passwd = new JPasswordField();
 		passwd.setBounds(155, 156, 112, 19);
 		login = new JButton("Login");
+		login.setForeground(Color.BLACK);
+		login.setBackground(new Color(0, 128, 255));
 		login.setBounds(105, 215, 100, 34);
 		registro = new JButton("Registro");
 		registro.setBounds(253, 215, 100, 34);
