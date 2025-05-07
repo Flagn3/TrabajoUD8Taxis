@@ -1,14 +1,17 @@
 package view;
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import java.awt.Font;
-import java.awt.Color;
 
 public class LoginView extends JFrame {
 
@@ -33,20 +36,22 @@ public class LoginView extends JFrame {
 		lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblUsername.setBounds(155, 37, 112, 40);
-		txtUsername = new JTextField();
+		txtUsername = new JTextField(30);
 		txtUsername.setBounds(155, 87, 112, 19);
 		lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblPassword.setBounds(155, 116, 82, 40);
-		passwd = new JPasswordField();
+		passwd = new JPasswordField(30);
 		passwd.setBounds(155, 156, 112, 19);
 		login = new JButton("Login");
-		login.setForeground(Color.BLACK);
-		login.setBackground(new Color(0, 128, 255));
 		login.setBounds(105, 215, 100, 34);
 		registro = new JButton("Registro");
 		registro.setBounds(253, 215, 100, 34);
-			
+
+		ManejadorEventos m = new ManejadorEventos();
+		login.addActionListener(m);
+		registro.addActionListener(m);
+
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(lblUsername);
@@ -55,8 +60,31 @@ public class LoginView extends JFrame {
 		contentPane.add(passwd);
 		contentPane.add(login);
 		contentPane.add(registro);
-		
+
 		setVisible(true);
+	}
+
+	private class ManejadorEventos implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			Object o = e.getSource();
+
+			if (o == login) {
+				if (txtUsername.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "El campo username no puede estar vacío", "Error username",
+							JOptionPane.ERROR_MESSAGE);
+				} else if (passwd.getPassword().length == 0) {
+					JOptionPane.showMessageDialog(null, "El campo password no puede estar vacío", "Error password",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}else {
+				//Abrir la clase del registro
+			}
+
+		}
+
 	}
 
 }
