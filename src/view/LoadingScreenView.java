@@ -31,6 +31,7 @@ public class LoadingScreenView extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(Color.white);
+		
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -46,10 +47,12 @@ public class LoadingScreenView extends JFrame {
 		panel.add(progressBar);
 
 		ImageIcon imagen = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(imagen.getImage());
 		JLabel imagenlbl = new JLabel(imagen);
 		imagenlbl.setBounds(38, 10, 400, 400);
 		panel.add(imagenlbl);
-
+		
+				
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
 

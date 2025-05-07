@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,6 +34,9 @@ public class LoginView extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
+		ImageIcon imagen = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(imagen.getImage());
+		
 		lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblUsername.setBounds(155, 37, 112, 40);
@@ -80,7 +84,7 @@ public class LoginView extends JFrame {
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}else {
-				//Abrir la clase del registro
+				JOptionPane.showMessageDialog(null, "Hola");
 			}
 
 		}
