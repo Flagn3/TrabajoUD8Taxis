@@ -1,11 +1,15 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import model.Usuario;
 
 public class TaxistaView extends JFrame {
 
@@ -13,12 +17,7 @@ public class TaxistaView extends JFrame {
 	private JPanel contentPane;
 	private JButton gestionarVehiculos, gestionarViajes, exit;
 	
-	
-	
-	/**
-	 * Create the frame.
-	 */
-	public TaxistaView() {
+	public TaxistaView(Usuario u) {
 		super("Taxista");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 300, 300);
@@ -29,20 +28,48 @@ public class TaxistaView extends JFrame {
 		gestionarVehiculos = new JButton("Gestionar Vehículos");
 		gestionarVehiculos.setBounds(61, 128, 163, 42);
 		gestionarViajes = new JButton("Gestionar Viajes");
-		gestionarViajes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		gestionarViajes.setBounds(61, 57, 163, 42);
-		contentPane.setLayout(null);
 		
+		ImageIcon img = new ImageIcon("file/salir.png");
+		exit = new JButton(img);
+		exit.setBounds(246, 223, 40, 40);
+		contentPane.add(exit);
+		
+		contentPane.setLayout(null);
 		contentPane.add(gestionarVehiculos);
 		contentPane.add(gestionarViajes);
+		
+		
+		
+		ManejadorEventos m = new ManejadorEventos();
+		gestionarVehiculos.addActionListener(m);
+		gestionarViajes.addActionListener(m);
+		exit.addActionListener(m);
 		
 		setVisible(true);
 		setLocationRelativeTo(null);
 	}
-	public static void main(String[] args) {
-		new TaxistaView();
+	
+	private class ManejadorEventos implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			Object o = e.getSource();
+			
+			if(o == exit) {
+				dispose();
+				new LoginView();
+			}else if(o == gestionarVehiculos) {
+				dispose();
+				new GestionarVehiculosView();
+			}else if(o == gestionarViajes) {
+				dispose();
+				//new GestionarViajesView();
+			}
+			
+		}
+		
 	}
+	
 }
