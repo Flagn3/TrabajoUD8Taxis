@@ -13,7 +13,7 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import control.AdminController;
+import control.UserController;
 import control.Conexion;
 import model.Usuario;
 
@@ -23,7 +23,7 @@ public class AdminView extends JFrame {
 	private JPanel contentPane;
 	private static JButton bteliminar, bteditar, btexit;
 	private JTable table;
-	private final AdminController services = new AdminController();
+	private final UserController services = new UserController();
 	private List<Usuario> usuarios;
 
 	/**
@@ -63,10 +63,6 @@ public class AdminView extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
-	}
-
-	public static void main(String[] args) {
-		new AdminView();
 	}
 
 	private void showUsuarios() {

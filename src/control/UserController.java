@@ -9,7 +9,7 @@ import java.util.List;
 
 import model.Usuario;
 
-public class AdminController {
+public class UserController {
 
 	private final String tabla = "Usuarios";
 
