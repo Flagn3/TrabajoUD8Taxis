@@ -9,8 +9,9 @@ public class Vehiculo {
 		super();
 	}
 	
-	public Vehiculo(int idUsuario, String matricula, String modelo, String marca) {
+	public Vehiculo(int id ,int idUsuario, String matricula, String modelo, String marca) {
 		super();
+		this.id = id;
 		this.idUsuario = idUsuario;
 		this.matricula = matricula;
 		this.modelo = modelo;
@@ -50,6 +51,9 @@ public class Vehiculo {
 	}
 	public int getId() {
 		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	@Override
 	public String toString() {
