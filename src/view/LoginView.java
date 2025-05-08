@@ -21,7 +21,7 @@ public class LoginView extends JFrame {
 	private JLabel lblUsername, lblPassword;
 	private JTextField txtUsername;
 	private JPasswordField passwd;
-	private JButton login, registro;
+	private JButton login, registro, exit;
 
 	/**
 	 * Create the frame.
@@ -36,26 +36,35 @@ public class LoginView extends JFrame {
 
 		ImageIcon imagen = new ImageIcon("file/TaxiCarga.png");
 		setIconImage(imagen.getImage());
-		
+
 		lblUsername = new JLabel("Username");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblUsername.setBounds(155, 37, 112, 40);
+
 		txtUsername = new JTextField(30);
 		txtUsername.setBounds(155, 87, 112, 19);
-	
+
 		lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblPassword.setBounds(155, 116, 82, 40);
+
 		passwd = new JPasswordField(30);
 		passwd.setBounds(155, 156, 112, 19);
+
 		login = new JButton("Login");
 		login.setBounds(105, 215, 100, 34);
+
 		registro = new JButton("Registro");
 		registro.setBounds(253, 215, 100, 34);
+
+		ImageIcon img = new ImageIcon("file/salir.png");
+		exit = new JButton(img);
+		exit.setBounds(415, 265, 40, 40);
 
 		ManejadorEventos m = new ManejadorEventos();
 		login.addActionListener(m);
 		registro.addActionListener(m);
+		exit.addActionListener(m);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -65,6 +74,7 @@ public class LoginView extends JFrame {
 		contentPane.add(passwd);
 		contentPane.add(login);
 		contentPane.add(registro);
+		contentPane.add(exit);
 
 		setVisible(true);
 	}
@@ -84,8 +94,15 @@ public class LoginView extends JFrame {
 					JOptionPane.showMessageDialog(null, "El campo password no puede estar vacío", "Error password",
 							JOptionPane.ERROR_MESSAGE);
 				}
-			}else {
-				JOptionPane.showMessageDialog(null, "Hola");
+			}
+
+			if (o == registro) {
+				dispose();
+				new UserRegistrationView();
+			}
+
+			if (o == exit) {
+				System.exit(ABORT);
 			}
 
 		}
