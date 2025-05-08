@@ -4,13 +4,24 @@ public class Usuario {
 
 	private int id;
 	private String nombre, apellido, password, username, rol, email;
-	
+
 	public Usuario() {
 		super();
 	}
 
 	public Usuario(String nombre, String apellido, String password, String username, String rol, String email) {
 		super();
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.password = password;
+		this.username = username;
+		this.rol = rol;
+		this.email = email;
+	}
+
+	public Usuario(int id, String nombre, String apellido, String password, String username, String rol, String email) {
+		super();
+		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.password = password;
@@ -26,11 +37,11 @@ public class Usuario {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
 	public String getApellido() {
 		return apellido;
 	}
-	
+
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
@@ -71,13 +82,14 @@ public class Usuario {
 		return id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", password=" + password
 				+ ", username=" + username + ", rol=" + rol + ", email=" + email + "]";
 	}
 
-	
-	
-	
 }
