@@ -42,6 +42,7 @@ public class LoginView extends JFrame {
 		lblUsername.setBounds(155, 37, 112, 40);
 		txtUsername = new JTextField(30);
 		txtUsername.setBounds(155, 87, 112, 19);
+	
 		lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblPassword.setBounds(155, 116, 82, 40);
