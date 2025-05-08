@@ -3,6 +3,10 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import control.Conexion;
+import model.Usuario;
 
 public class LoginView extends JFrame {
 
@@ -94,6 +101,41 @@ public class LoginView extends JFrame {
 					JOptionPane.showMessageDialog(null, "El campo password no puede estar vacío", "Error password",
 							JOptionPane.ERROR_MESSAGE);
 				}
+				
+				else {
+					PreparedStatement consulta;
+					try {
+						consulta = Conexion.obtener()
+								.prepareStatement("SELECT id,nombre,apellido, password, username, rol, email "
+										+ " FROM Usuarios " + " WHERE username= ? AND password= ?");
+						consulta.setString(1, txtUsername.getText());
+						consulta.setString(2, new String(passwd.getPassword()));
+						ResultSet resultado = consulta.executeQuery();
+
+						resultado.next();
+
+						Usuario u = new Usuario(resultado.getInt("id"), resultado.getString("nombre"),
+								resultado.getString("apellido"), resultado.getString("password"),
+								resultado.getString("username"), resultado.getString("rol"),
+								resultado.getString("email"));
+
+						if (u.getRol().equalsIgnoreCase("ADMIN")) {
+							dispose();
+							new AdminView(u);
+						} else if (u.getRol().equalsIgnoreCase("TAXISTA")) {
+							dispose();
+							//new TaxistaView(u);
+						} else if (u.getRol().equalsIgnoreCase("MECANICO")) {
+							dispose();
+							//new MecanicoView(u);
+						}
+
+					} catch (SQLException | ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				// prueba
 			}
 
 			if (o == registro) {
