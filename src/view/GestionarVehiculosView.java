@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import control.Conexion;
 import control.VehiculoController;
+import model.Usuario;
 import model.Vehiculo;
 
 public class GestionarVehiculosView extends JFrame {
@@ -24,19 +27,22 @@ public class GestionarVehiculosView extends JFrame {
 	private final VehiculoController controller = new VehiculoController();
 	private List<Vehiculo> vehiculos;
 	private JTable tablaVehiculos;
+	private Usuario usuarioActivo;
 	
-	public GestionarVehiculosView() {
+	public GestionarVehiculosView(Usuario u) {
+		super("Gestionar Vehiculos");
+		this.usuarioActivo = u;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 567, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		editarVehiculo = new JButton("Editar");
-		editarVehiculo.setBounds(228, 10, 77, 31);
+		editarVehiculo.setBounds(181, 10, 77, 31);
 		eliminarVehiculo = new JButton("Eliminar");
-		eliminarVehiculo.setBounds(357, 10, 77, 31);
+		eliminarVehiculo.setBounds(293, 10, 93, 31);
 		addVehiculo = new JButton("Añadir");
-		addVehiculo.setBounds(109, 10, 77, 31);
+		addVehiculo.setBounds(67, 10, 77, 31);
 		
 		
 		contentPane.setLayout(null);
@@ -48,7 +54,9 @@ public class GestionarVehiculosView extends JFrame {
 	
 		setContentPane(contentPane);
 		
-		
+		ManejadorEventos m = new ManejadorEventos();
+		addVehiculo.addActionListener(m);
+		eliminarVehiculo.addActionListener(m);
 		
 		tablaVehiculos = new JTable();
 		showVehiculos();
@@ -63,7 +71,7 @@ public class GestionarVehiculosView extends JFrame {
 
 		private void showVehiculos() {
 		try {
-			this.vehiculos = this.controller.getAllVehiculos(Conexion.obtener());
+			this.vehiculos = this.controller.getAllVehiculos(Conexion.obtener(), usuarioActivo);
 			tablaVehiculos.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
 			}, new String[] { "id", "idUsuario", "Matricula", "Modelo", "Marca", "Estado" }));
@@ -84,4 +92,41 @@ public class GestionarVehiculosView extends JFrame {
 			JOptionPane.showMessageDialog(this, "Ha surgido un error y no se han podido recuperar los registros");
 		}
 	}
+		
+		private class ManejadorEventos implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				Object o = e.getSource();
+				
+				if(o == addVehiculo) {
+					dispose();
+					new VehiculoRegistratioView(usuarioActivo);
+				}else if(o == eliminarVehiculo) {
+					int filaSeleccionada = tablaVehiculos.getSelectedRow();
+					if(filaSeleccionada>=0) {
+						int decision = JOptionPane.showConfirmDialog(null, "Estas seguro que deseas elimininar este vehículo", "Eliminar vehículo",
+								JOptionPane.YES_NO_OPTION);
+						if(decision == 0) {
+							try {
+								controller.remove(Conexion.obtener(), vehiculos.get(filaSeleccionada));
+								showVehiculos();
+								JOptionPane.showMessageDialog(null, "Vehículo Eliminado con éxito");
+							} catch (ClassNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Seleccione una fila", "Seleccionar fila", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				
+			}
+			
+		}
 }

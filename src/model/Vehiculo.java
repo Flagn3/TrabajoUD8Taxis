@@ -1,15 +1,29 @@
-package model;
+ package model;
 
 public class Vehiculo {
 
-	private int id, idUsuario;
+	private Integer id;
+	private int idUsuario;
 	private String matricula, modelo, marca;
 	private int estado;
 	public Vehiculo() {
 		super();
 	}
 	
-	public Vehiculo(int id ,int idUsuario, String matricula, String modelo, String marca) {
+	
+	
+	public Vehiculo(int idUsuario, String matricula, String modelo, String marca) {
+		super();
+		this.idUsuario = idUsuario;
+		this.matricula = matricula;
+		this.modelo = modelo;
+		this.marca = marca;
+		this.estado = 100;
+	}
+
+
+
+	public Vehiculo(Integer id ,int idUsuario, String matricula, String modelo, String marca) {
 		super();
 		this.id = id;
 		this.idUsuario = idUsuario;
@@ -49,10 +63,10 @@ public class Vehiculo {
 	public void setEstado(int estado) {
 		this.estado = estado;
 	}
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	@Override
