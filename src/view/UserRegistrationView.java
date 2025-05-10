@@ -191,7 +191,7 @@ public class UserRegistrationView extends JFrame {
 			if (textPassword.getText().length() >= 30) {
 				e.consume();
 			}
-			if (textEmail.getText().length() >= 30) {
+			if (textEmail.getText().length() >= 50) {
 				e.consume();
 			}
 		}
