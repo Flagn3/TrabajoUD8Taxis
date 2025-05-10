@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Usuario;
 import model.Vehiculo;
+
 
 public class VehiculoController {
 
@@ -16,7 +18,7 @@ public class VehiculoController {
 	public void save(Connection conexion, Vehiculo vehiculo) throws SQLException {
 		try {
 			PreparedStatement consulta;
-			if (vehiculo.getId() == 0) {
+			if (vehiculo.getId() == null) {
 				consulta = conexion.prepareStatement("INSERT INTO " + this.tabla
 						+ "(id_usuario, matricula, modelo, marca, estado) VALUES(?, ?, ?, ?, ?)");
 				consulta.setInt(1, vehiculo.getIdUsuario());
@@ -40,12 +42,13 @@ public class VehiculoController {
 		}
 	}
 
-	public List<Vehiculo> getAllVehiculos(Connection conexion) throws SQLException {
+	public List<Vehiculo> getAllVehiculos(Connection conexion, Usuario u) throws SQLException {
 		List<Vehiculo> vehiculos = new ArrayList<>();
 
 		try {
 			PreparedStatement consulta = conexion
-					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado FROM " + this.tabla);
+					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado FROM " + this.tabla + " WHERE id_usuario = ?");
+			consulta.setInt(1, u.getId());
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				Vehiculo v = new Vehiculo(resultado.getInt("Id"), resultado.getInt("id_usuario"),
@@ -57,5 +60,16 @@ public class VehiculoController {
 		}
 		return vehiculos;
 	}
+	
+	public void remove(Connection conexion, Vehiculo vehiculo) throws SQLException{
+	      try{
+	         PreparedStatement consulta = conexion.prepareStatement("DELETE FROM " 
+	      + this.tabla + " WHERE id = ?");
+	         consulta.setInt(1, vehiculo.getId());
+	         consulta.executeUpdate();
+	      }catch(SQLException ex){
+	         throw new SQLException(ex);
+	      }
+	   }
 
 }

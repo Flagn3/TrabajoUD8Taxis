@@ -124,7 +124,7 @@ public class LoginView extends JFrame {
 							new AdminView(u);
 						} else if (u.getRol().equalsIgnoreCase("TAXISTA")) {
 							dispose();
-							//new TaxistaView(u);
+							 new TaxistaView(u);
 						} else if (u.getRol().equalsIgnoreCase("MECANICO")) {
 							dispose();
 							//new MecanicoView(u);

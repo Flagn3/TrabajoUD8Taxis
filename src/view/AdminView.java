@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -51,6 +53,9 @@ public class AdminView extends JFrame {
 		btexit = new JButton(img);
 		btexit.setBounds(384, 10, 40, 40);
 		contentPane.add(btexit);
+		
+		ManejadorEventos m = new ManejadorEventos();
+		btexit.addActionListener(m);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(25, 97, 399, 146);
@@ -89,4 +94,20 @@ public class AdminView extends JFrame {
 		}
 	}
 
+	private class ManejadorEventos implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			Object o = e.getSource();
+			
+			if(o == btexit) {
+				dispose();
+				new LoginView();
+			}
+			
+		}
+		
+	}
+	
 }

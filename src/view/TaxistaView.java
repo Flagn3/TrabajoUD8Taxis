@@ -16,9 +16,11 @@ public class TaxistaView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JButton gestionarVehiculos, gestionarViajes, exit;
+	private Usuario usuarioActivo;
 	
 	public TaxistaView(Usuario u) {
 		super("Taxista");
+		this.usuarioActivo = u;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 300, 300);
 		contentPane = new JPanel();
@@ -62,7 +64,7 @@ public class TaxistaView extends JFrame {
 				new LoginView();
 			}else if(o == gestionarVehiculos) {
 				dispose();
-				new GestionarVehiculosView();
+				new GestionarVehiculosView(usuarioActivo);
 			}else if(o == gestionarViajes) {
 				dispose();
 				//new GestionarViajesView();
