@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ public class GestionarViajesView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JButton btadd, btupdate, btborrar;
+	private JButton btadd, btupdate, btborrar, volver;
 	private static JTable tabla;
 	private static Usuario userActivo;
 	private static ViajeController viajeCont = new ViajeController();
@@ -42,16 +43,32 @@ public class GestionarViajesView extends JFrame {
 		setContentPane(contentPane);
 
 		btadd = new JButton("Añadir");
-		btadd.setBounds(156, 10, 87, 31);
+		btadd.setBounds(128, 10, 87, 31);
 		btupdate = new JButton("Editar");
-		btupdate.setBounds(291, 10, 87, 31);
+		btupdate.setBounds(254, 10, 87, 31);
 		btborrar = new JButton("Eliminar");
-		btborrar.setBounds(431, 10, 94, 31);
+		btborrar.setBounds(377, 10, 94, 31);
 		contentPane.setLayout(null);
 
+		ImageIcon img = new ImageIcon("file/salir.png");
+		volver = new JButton(img);
+		volver.setBounds(513, 10, 45, 31);
+		
 		contentPane.add(btadd);
 		contentPane.add(btupdate);
 		contentPane.add(btborrar);
+		contentPane.add(volver);
+		
+		volver.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				dispose();
+				new TaxistaView(userActivo);
+				
+			}
+		});
 
 		String[] columnNames = { "Fecha", "Hora", "Destino", "Kilómetros", "Precio", "Id Vehículo" };
 

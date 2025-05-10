@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,7 +24,7 @@ public class GestionarVehiculosView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JButton editarVehiculo, eliminarVehiculo, addVehiculo;
+	private JButton editarVehiculo, eliminarVehiculo, addVehiculo, repararVehiculo, inicio;
 	private final VehiculoController controller = new VehiculoController();
 	private List<Vehiculo> vehiculos;
 	private JTable tablaVehiculos;
@@ -38,12 +39,20 @@ public class GestionarVehiculosView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		editarVehiculo = new JButton("Editar");
-		editarVehiculo.setBounds(181, 10, 77, 31);
+		editarVehiculo.setBounds(112, 24, 77, 31);
 		eliminarVehiculo = new JButton("Eliminar");
-		eliminarVehiculo.setBounds(293, 10, 93, 31);
+		eliminarVehiculo.setBounds(199, 24, 93, 31);
 		addVehiculo = new JButton("Añadir");
-		addVehiculo.setBounds(67, 10, 77, 31);
+		addVehiculo.setBounds(25, 24, 77, 31);
 		
+		repararVehiculo = new JButton("Reparar vehículo");
+		repararVehiculo.setBounds(302, 24, 154, 31);
+		contentPane.add(repararVehiculo);
+		
+		ImageIcon img = new ImageIcon("file/salir.png");
+		inicio = new JButton(img);
+		inicio.setBounds(473, 11, 57, 44);
+		contentPane.add(inicio);
 		
 		contentPane.setLayout(null);
 		
@@ -57,6 +66,8 @@ public class GestionarVehiculosView extends JFrame {
 		ManejadorEventos m = new ManejadorEventos();
 		addVehiculo.addActionListener(m);
 		eliminarVehiculo.addActionListener(m);
+		editarVehiculo.addActionListener(m);
+		inicio.addActionListener(m);
 		
 		tablaVehiculos = new JTable();
 		showVehiculos();
@@ -74,11 +85,11 @@ public class GestionarVehiculosView extends JFrame {
 			this.vehiculos = this.controller.getAllVehiculos(Conexion.obtener(), usuarioActivo);
 			tablaVehiculos.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-			}, new String[] { "id", "idUsuario", "Matricula", "Modelo", "Marca", "Estado" }));
+			}, new String[] {"Matricula", "Modelo", "Marca", "Estado" }));
 			DefaultTableModel dtm=(DefaultTableModel) tablaVehiculos.getModel();
 			dtm.setRowCount(0);
 			for (int i = 0; i < this.vehiculos.size(); i++) {
-				dtm.addRow(new Object[] { this.vehiculos.get(i).getId(), this.vehiculos.get(i).getIdUsuario(),
+				dtm.addRow(new Object[] { 
 						this.vehiculos.get(i).getMatricula(), this.vehiculos.get(i).getModelo(),
 						this.vehiculos.get(i).getMarca(), this.vehiculos.get(i).getEstado()});
 			}
@@ -124,6 +135,15 @@ public class GestionarVehiculosView extends JFrame {
 					}else {
 						JOptionPane.showMessageDialog(null, "Seleccione una fila", "Seleccionar fila", JOptionPane.ERROR_MESSAGE);
 					}
+				}else if(o == editarVehiculo) {
+					int filaSeleccionada = tablaVehiculos.getSelectedRow();
+					if(filaSeleccionada >= 0) {
+						new EditVehiculoView(vehiculos.get(filaSeleccionada), usuarioActivo);
+						dispose();
+					}
+				}else if(o == inicio) {
+					dispose();
+					new TaxistaView(usuarioActivo);
 				}
 				
 			}
