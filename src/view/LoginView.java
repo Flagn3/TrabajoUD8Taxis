@@ -101,7 +101,7 @@ public class LoginView extends JFrame {
 					JOptionPane.showMessageDialog(null, "El campo password no puede estar vacío", "Error password",
 							JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 				else {
 					PreparedStatement consulta;
 					try {
@@ -124,15 +124,16 @@ public class LoginView extends JFrame {
 							new AdminView(u);
 						} else if (u.getRol().equalsIgnoreCase("TAXISTA")) {
 							dispose();
-							 new TaxistaView(u);
+							new TaxistaView(u);
 						} else if (u.getRol().equalsIgnoreCase("MECANICO")) {
 							dispose();
-							//new MecanicoView(u);
+							// new MecanicoView(u);
 						}
 
 					} catch (SQLException | ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Datos de inicio de sesión incorrectos", "Login fallido",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				// prueba
