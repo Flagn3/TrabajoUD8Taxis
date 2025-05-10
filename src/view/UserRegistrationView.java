@@ -15,6 +15,8 @@ import java.awt.BorderLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -125,10 +127,15 @@ public class UserRegistrationView extends JFrame {
 		ManejadorEventos me = new ManejadorEventos();
 		btnConfirmar.addActionListener(me);
 		btnVolver.addActionListener(me);
+		textNombre.addKeyListener(me);
+		textApellido.addKeyListener(me);
+		textUsername.addKeyListener(me);
+		textPassword.addKeyListener(me);
+		textEmail.addKeyListener(me);
 
 	}
 
-	public class ManejadorEventos implements ActionListener {
+	public class ManejadorEventos implements ActionListener, KeyListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -167,6 +174,38 @@ public class UserRegistrationView extends JFrame {
 					JOptionPane.showConfirmDialog(null, "Faltan campos por rellenar");
 				}
 			}
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			if (textNombre.getText().length() >= 30) {
+				e.consume();
+			}
+			if (textApellido.getText().length() >= 30) {
+				e.consume();
+			}
+			if (textUsername.getText().length() >= 30) {
+				e.consume();
+			}
+			if (textPassword.getText().length() >= 30) {
+				e.consume();
+			}
+			if (textEmail.getText().length() >= 50) {
+				e.consume();
+			}
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+
 		}
 
 	}
