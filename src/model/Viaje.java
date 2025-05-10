@@ -1,11 +1,13 @@
 package model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Viaje {
-	private int id;
-	private LocalDateTime fechayhora_ini;
-	private LocalDateTime fechayhora_fin;
+	private Integer id;
+	private LocalDate fecha;
+	private LocalTime hora;
 	private String destino;
 	private float km, precio;
 	private int idUsuario, idVehiculo;
@@ -14,11 +16,11 @@ public class Viaje {
 		super();
 	}
 
-	public Viaje(LocalDateTime fechayhora_ini, LocalDateTime fechayhora_fin, String destino, float km, float precio,
-			int idUsuario, int idVehiculo) {
+	public Viaje(LocalDate fecha, LocalTime hora, String destino, float km, float precio, int idUsuario,
+			int idVehiculo) {
 		super();
-		this.fechayhora_ini = fechayhora_ini;
-		this.fechayhora_fin = fechayhora_fin;
+		this.fecha = fecha;
+		this.hora = hora;
 		this.destino = destino;
 		this.km = km;
 		this.precio = precio;
@@ -26,24 +28,37 @@ public class Viaje {
 		this.idVehiculo = idVehiculo;
 	}
 
-	public int getId() {
+	public Viaje(Integer id, LocalDate fecha, LocalTime hora, String destino, float km, float precio, int idUsuario,
+			int idVehiculo) {
+		super();
+		this.id = id;
+		this.fecha = fecha;
+		this.hora = hora;
+		this.destino = destino;
+		this.km = km;
+		this.precio = precio;
+		this.idUsuario = idUsuario;
+		this.idVehiculo = idVehiculo;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public LocalDateTime getFechayhora_ini() {
-		return fechayhora_ini;
+	public LocalDate getFecha() {
+		return fecha;
 	}
 
-	public void setFechayhora_ini(LocalDateTime fechayhora_ini) {
-		this.fechayhora_ini = fechayhora_ini;
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
 	}
 
-	public LocalDateTime getFechayhora_fin() {
-		return fechayhora_fin;
+	public LocalTime getHora() {
+		return hora;
 	}
 
-	public void setFechayhora_fin(LocalDateTime fechayhora_fin) {
-		this.fechayhora_fin = fechayhora_fin;
+	public void setHora(LocalTime hora) {
+		this.hora = hora;
 	}
 
 	public String getDestino() {
@@ -88,9 +103,8 @@ public class Viaje {
 
 	@Override
 	public String toString() {
-		return "Viaje [id=" + id + ", fechayhora_ini=" + fechayhora_ini + ", fechayhora_fin=" + fechayhora_fin
-				+ ", destino=" + destino + ", km=" + km + ", precio=" + precio + ", idUsuario=" + idUsuario
-				+ ", idVehiculo=" + idVehiculo + "]";
+		return "Viaje [id=" + id + ", fecha=" + fecha + ", hora=" + hora + ", destino=" + destino + ", km=" + km
+				+ ", precio=" + precio + ", idUsuario=" + idUsuario + ", idVehiculo=" + idVehiculo + "]";
 	}
 
 }

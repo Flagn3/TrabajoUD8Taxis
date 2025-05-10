@@ -13,7 +13,7 @@ public class Conexion {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				cnx = DriverManager.getConnection(
-						"jdbc:mysql://bktehwk17s5a3dadtynd-mysql.services.clever-cloud.com:3306/bktehwk17s5a3dadtynd?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+						"jdbc:mysql://bktehwk17s5a3dadtynd-mysql.services.clever-cloud.com:3306/bktehwk17s5a3dadtynd?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Madrid",
 						"uxkm0jdm45e03qjl", "6dB2qsiPExXuCzbJzxlh");
 			} catch (SQLException ex) {
 				throw new SQLException(ex);

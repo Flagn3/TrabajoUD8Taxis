@@ -1,11 +1,13 @@
 package model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Reparacion {
-	private int id;
-	private LocalDateTime fechayhora_ini;
-	private LocalDateTime fechayhora_fin;
+	private Integer id;
+	private LocalDate fecha;
+	private LocalTime hora;
 	private String descripcion;
 	private float coste;
 	private int idUsuario, idVehiculo;
@@ -14,35 +16,50 @@ public class Reparacion {
 		super();
 	}
 
-	public Reparacion(LocalDateTime fechayhora_ini, LocalDateTime fechayhora_fin, String descripcion, float coste,
-			int idUsuario, int idVehiculo) {
+	public Reparacion(LocalDate fecha, LocalTime hora, String descripcion, float coste, int idUsuario, int idVehiculo) {
 		super();
-		this.fechayhora_ini = fechayhora_ini;
-		this.fechayhora_fin = fechayhora_fin;
+		this.fecha = fecha;
+		this.hora = hora;
 		this.descripcion = descripcion;
 		this.coste = coste;
 		this.idUsuario = idUsuario;
 		this.idVehiculo = idVehiculo;
 	}
 
-	public int getId() {
+	public Reparacion(Integer id, LocalDate fecha, LocalTime hora, String descripcion, float coste, int idUsuario,
+			int idVehiculo) {
+		super();
+		this.id = id;
+		this.fecha = fecha;
+		this.hora = hora;
+		this.descripcion = descripcion;
+		this.coste = coste;
+		this.idUsuario = idUsuario;
+		this.idVehiculo = idVehiculo;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public LocalDateTime getFechayhora_ini() {
-		return fechayhora_ini;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setFechayhora_ini(LocalDateTime fechayhora_ini) {
-		this.fechayhora_ini = fechayhora_ini;
+	public LocalDate getFecha() {
+		return fecha;
 	}
 
-	public LocalDateTime getFechayhora_fin() {
-		return fechayhora_fin;
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
 	}
 
-	public void setFechayhora_fin(LocalDateTime fechayhora_fin) {
-		this.fechayhora_fin = fechayhora_fin;
+	public LocalTime getHora() {
+		return hora;
+	}
+
+	public void setHora(LocalTime hora) {
+		this.hora = hora;
 	}
 
 	public String getDescripcion() {
@@ -79,9 +96,8 @@ public class Reparacion {
 
 	@Override
 	public String toString() {
-		return "Reparacion [id=" + id + ", fechayhora_ini=" + fechayhora_ini + ", fechayhora_fin=" + fechayhora_fin
-				+ ", descripcion=" + descripcion + ", coste=" + coste + ", idUsuario=" + idUsuario + ", idVehiculo="
-				+ idVehiculo + "]";
+		return "Reparacion [id=" + id + ", fecha=" + fecha + ", hora=" + hora + ", descripcion=" + descripcion
+				+ ", coste=" + coste + ", idUsuario=" + idUsuario + ", idVehiculo=" + idVehiculo + "]";
 	}
 
 }
