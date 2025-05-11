@@ -21,7 +21,7 @@ public class ReparacionController {
 		try {
 			if (r.getId() == null) {
 				consulta = conexion.prepareStatement("INSERT INTO " + this.tabla
-						+ " VALUES (fecha,hora,descripcion,coste,id_usuario,id_vehiculo) VALUES(?,?,?,?,?,?)");
+						+ " (fecha,hora,descripcion,coste,id_usuario,id_vehiculo) VALUES(?,?,?,?,?,?)");
 				consulta.setDate(1, Date.valueOf(r.getFecha()));
 				consulta.setTime(2, Time.valueOf(r.getHora()));
 				consulta.setString(3, r.getDescripcion());
