@@ -67,6 +67,11 @@ public class LoginView extends JFrame {
 		ImageIcon img = new ImageIcon("file/salir.png");
 		exit = new JButton(img);
 		exit.setBounds(415, 265, 40, 40);
+		exit.setContentAreaFilled(false);
+		exit.setBorderPainted(false);
+		exit.setFocusPainted(false);
+		exit.setOpaque(false);
+
 
 		ManejadorEventos m = new ManejadorEventos();
 		login.addActionListener(m);
@@ -127,7 +132,7 @@ public class LoginView extends JFrame {
 							new TaxistaView(u);
 						} else if (u.getRol().equalsIgnoreCase("MECANICO")) {
 							dispose();
-							// new MecanicoView(u);
+							new MecanicoView(u);
 						}
 
 					} catch (SQLException | ClassNotFoundException e1) {
