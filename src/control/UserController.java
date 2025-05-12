@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Usuario;
+import model.Vehiculo;
 
 public class UserController {
 
@@ -71,4 +72,21 @@ public class UserController {
 		return products;
 	}
 
+	public Usuario getUser(Connection conexion, int id) {
+		Usuario usuario = null;
+		try {
+			PreparedStatement consulta = conexion.prepareStatement(
+					"SELECT * FROM " + this.tabla + " WHERE id = ?");
+			consulta.setInt(1, id);
+			ResultSet resultado = consulta.executeQuery();
+			while (resultado.next()) {
+				usuario = new Usuario();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return usuario;
+	}
 }
