@@ -52,7 +52,7 @@ public class VehiculoController {
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				Vehiculo v = new Vehiculo(resultado.getInt("Id"), resultado.getInt("id_usuario"),
-						resultado.getString("matricula"), resultado.getString("modelo"), resultado.getString("marca"));
+						resultado.getString("matricula"), resultado.getString("modelo"), resultado.getString("marca"), resultado.getInt("estado"));
 				vehiculos.add(v);
 			}
 		} catch (SQLException ex) {
@@ -80,7 +80,7 @@ public class VehiculoController {
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				vehiculo = new Vehiculo(id, resultado.getInt("id_usuario"), resultado.getString("matricula"),
-						resultado.getString("modelo"), resultado.getString("marca"));
+						resultado.getString("modelo"), resultado.getString("marca"), 100);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
