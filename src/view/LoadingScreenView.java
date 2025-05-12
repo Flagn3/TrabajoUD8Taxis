@@ -69,7 +69,7 @@ public class LoadingScreenView extends JFrame {
 					new LoginView();
 				}
 			}
-		}, 0, 500);
+		}, 0, 100);
 
 		setLocationRelativeTo(null);
 		setVisible(true);
