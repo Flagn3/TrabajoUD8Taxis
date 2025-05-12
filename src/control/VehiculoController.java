@@ -75,7 +75,7 @@ public class VehiculoController {
 		Vehiculo vehiculo = null;
 		try {
 			PreparedStatement consulta = conexion.prepareStatement(
-					"SELECT id, id_usuario, matricula, modelo, marca FROM " + this.tabla + " WHERE id = ?");
+					"SELECT * FROM " + this.tabla + " WHERE id = ?");
 			consulta.setInt(1, id);
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
