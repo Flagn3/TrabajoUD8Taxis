@@ -10,7 +10,6 @@ import java.util.List;
 import model.Usuario;
 import model.Vehiculo;
 
-
 public class VehiculoController {
 
 	private final String tabla = "Vehiculos";
@@ -47,7 +46,8 @@ public class VehiculoController {
 
 		try {
 			PreparedStatement consulta = conexion
-					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado FROM " + this.tabla + " WHERE id_usuario = ?");
+					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado FROM " + this.tabla
+							+ " WHERE id_usuario = ?");
 			consulta.setInt(1, u.getId());
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
@@ -60,16 +60,34 @@ public class VehiculoController {
 		}
 		return vehiculos;
 	}
-	
-	public void remove(Connection conexion, Vehiculo vehiculo) throws SQLException{
-	      try{
-	         PreparedStatement consulta = conexion.prepareStatement("DELETE FROM " 
-	      + this.tabla + " WHERE id = ?");
-	         consulta.setInt(1, vehiculo.getId());
-	         consulta.executeUpdate();
-	      }catch(SQLException ex){
-	         throw new SQLException(ex);
-	      }
-	   }
+
+	public void remove(Connection conexion, Vehiculo vehiculo) throws SQLException {
+		try {
+			PreparedStatement consulta = conexion.prepareStatement("DELETE FROM " + this.tabla + " WHERE id = ?");
+			consulta.setInt(1, vehiculo.getId());
+			consulta.executeUpdate();
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+	}
+
+	public Vehiculo getVehiculo(Connection conexion, int id) {
+		Vehiculo vehiculo = null;
+		try {
+			PreparedStatement consulta = conexion.prepareStatement(
+					"SELECT id, id_usuario, matricula, modelo, marca FROM " + this.tabla + " WHERE id = ?");
+			consulta.setInt(1, id);
+			ResultSet resultado = consulta.executeQuery();
+			while (resultado.next()) {
+				vehiculo = new Vehiculo(id, resultado.getInt("id_usuario"), resultado.getString("matricula"),
+						resultado.getString("modelo"), resultado.getString("marca"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return vehiculo;
+	}
 
 }
