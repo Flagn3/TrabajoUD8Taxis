@@ -24,6 +24,7 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import control.Conexion;
+import control.CrearPDF;
 import control.ReparacionController;
 import model.Reparacion;
 import model.Usuario;
@@ -116,7 +117,7 @@ public class HistorialView extends JFrame {
 				int filaSeleccionada = tabla.getSelectedRow();
 				if (filaSeleccionada >= 0) {
 					Reparacion r = reparaciones.get(filaSeleccionada);
-					crearPDF(r);
+					CrearPDF.PDFRow(r);
 				} else {
 					JOptionPane.showMessageDialog(null, "Fila no seleccionada");
 				}
@@ -136,26 +137,6 @@ public class HistorialView extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(null, "Fila no seleccionada");
 				}
-			}
-		}
-
-		private void crearPDF(Reparacion r) {
-			// TODO Auto-generated method stub
-			Document documento = new Document();
-			try {
-				PdfWriter.getInstance(documento, new FileOutputStream("PDFreparaciones/reparacion_" + r.getId() + ".pdf"));
-				documento.open();
-				documento.add(new Paragraph("Detalles de la reparacion"));
-				documento.add(new Paragraph("ID : " + r.getId()));
-				documento.add(new Paragraph("Descripcion : " + r.getDescripcion()));
-				documento.add(new Paragraph("Costes : " + r.getCoste()));
-				documento.add(new Paragraph("Fecha : " + r.getFecha() + " " + r.getHora()));
-				documento.close();
-				JOptionPane.showMessageDialog(null, "PDF creado correctamente");
-			} catch (FileNotFoundException | DocumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Error al crear el PDF");
 			}
 		}
 
