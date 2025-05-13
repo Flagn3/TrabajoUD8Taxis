@@ -80,7 +80,7 @@ public class MecanicoView extends JFrame {
 
 			if (btnReparar == e.getSource()) {
 				dispose();
-				// new RepararView();
+				new ReparacionView(usuarioActivo);
 			}
 		}
 

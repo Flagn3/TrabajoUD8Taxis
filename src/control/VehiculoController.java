@@ -28,12 +28,13 @@ public class VehiculoController {
 
 			} else {
 				consulta = conexion.prepareStatement("UPDATE " + this.tabla
-						+ " SET id_usuario = ?, matricula = ?, modelo = ?, marca = ? WHERE id = ?");
+						+ " SET id_usuario = ?, matricula = ?, modelo = ?, marca = ? , reparacion = ? WHERE id = ?");
 				consulta.setInt(1, vehiculo.getIdUsuario());
 				consulta.setString(2, vehiculo.getMatricula());
 				consulta.setString(3, vehiculo.getModelo());
 				consulta.setString(4, vehiculo.getMarca());
-				consulta.setInt(5, vehiculo.getId());
+				consulta.setBoolean(5, vehiculo.isEnReparacion());
+				consulta.setInt(6, vehiculo.getId());
 			}
 			consulta.executeUpdate();
 		} catch (SQLException ex) {
@@ -46,13 +47,31 @@ public class VehiculoController {
 
 		try {
 			PreparedStatement consulta = conexion
-					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado FROM " + this.tabla
+					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado, reparacion FROM " + this.tabla
 							+ " WHERE id_usuario = ?");
 			consulta.setInt(1, u.getId());
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				Vehiculo v = new Vehiculo(resultado.getInt("Id"), resultado.getInt("id_usuario"),
-						resultado.getString("matricula"), resultado.getString("modelo"), resultado.getString("marca"), resultado.getInt("estado"));
+						resultado.getString("matricula"), resultado.getString("modelo"), resultado.getString("marca"), resultado.getInt("estado"), resultado.getBoolean("reparacion"));
+				vehiculos.add(v);
+			}
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+		return vehiculos;
+	}
+	
+	public List<Vehiculo> getAllVehiculosTaller(Connection conexion) throws SQLException {
+		List<Vehiculo> vehiculos = new ArrayList<>();
+
+		try {
+			PreparedStatement consulta = conexion
+					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado, reparacion FROM " + this.tabla);
+			ResultSet resultado = consulta.executeQuery();
+			while (resultado.next()) {
+				Vehiculo v = new Vehiculo(resultado.getInt("Id"), resultado.getInt("id_usuario"),
+						resultado.getString("matricula"), resultado.getString("modelo"), resultado.getString("marca"), resultado.getInt("estado"), resultado.getBoolean("reparacion"));
 				vehiculos.add(v);
 			}
 		} catch (SQLException ex) {
@@ -80,7 +99,7 @@ public class VehiculoController {
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				vehiculo = new Vehiculo(id, resultado.getInt("id_usuario"), resultado.getString("matricula"),
-						resultado.getString("modelo"), resultado.getString("marca"), 100);
+						resultado.getString("modelo"), resultado.getString("marca"), 100, resultado.getBoolean("reparacion"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

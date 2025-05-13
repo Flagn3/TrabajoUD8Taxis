@@ -67,6 +67,7 @@ public class GestionarVehiculosView extends JFrame {
 		eliminarVehiculo.addActionListener(m);
 		editarVehiculo.addActionListener(m);
 		inicio.addActionListener(m);
+		repararVehiculo.addActionListener(m);
 
 		tablaVehiculos = new JTable();
 		showVehiculos();
@@ -88,8 +89,10 @@ public class GestionarVehiculosView extends JFrame {
 			DefaultTableModel dtm = (DefaultTableModel) tablaVehiculos.getModel();
 			dtm.setRowCount(0);
 			for (int i = 0; i < this.vehiculos.size(); i++) {
-				dtm.addRow(new Object[] { this.vehiculos.get(i).getMatricula(), this.vehiculos.get(i).getModelo(),
-						this.vehiculos.get(i).getMarca(), this.vehiculos.get(i).getEstado() });
+				if (this.vehiculos.get(i).isEnReparacion() == false) {
+					dtm.addRow(new Object[] { this.vehiculos.get(i).getMatricula(), this.vehiculos.get(i).getModelo(),
+							this.vehiculos.get(i).getMarca(), this.vehiculos.get(i).getEstado() });
+				}
 			}
 
 		} catch (SQLException ex) {
@@ -143,6 +146,24 @@ public class GestionarVehiculosView extends JFrame {
 			} else if (o == inicio) {
 				dispose();
 				new TaxistaView(usuarioActivo);
+			}else if(o == repararVehiculo) {
+				int filaseleccionada = tablaVehiculos.getSelectedRow();
+				if(filaseleccionada >= 0) {
+					try {
+						vehiculos.get(filaseleccionada).setEnReparacion(true);
+						controller.save(Conexion.obtener(), vehiculos.get(filaseleccionada));
+						showVehiculos();
+						JOptionPane.showMessageDialog(null, "Vehículo mandado a reparar");
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Selecciona un vehículo", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 
 		}
