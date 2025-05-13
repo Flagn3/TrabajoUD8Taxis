@@ -91,7 +91,7 @@ public class VehiculoRegistratioView extends JFrame {
 				if (!txtMatricula.getText().isEmpty() && !txtModelo.getText().isEmpty()
 						&& !txtMarca.getText().isEmpty()) {
 					Vehiculo v = new Vehiculo(usuarioActivo.getId(), txtMatricula.getText(), txtModelo.getText(),
-							txtMarca.getText(), 100);
+							txtMarca.getText(), 100, false);
 					try {
 						services.save(Conexion.obtener(), v);
 						dispose();

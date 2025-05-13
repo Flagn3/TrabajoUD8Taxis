@@ -19,22 +19,24 @@ public class VehiculoController {
 			PreparedStatement consulta;
 			if (vehiculo.getId() == null) {
 				consulta = conexion.prepareStatement("INSERT INTO " + this.tabla
-						+ "(id_usuario, matricula, modelo, marca, estado) VALUES(?, ?, ?, ?, ?)");
+						+ "(id_usuario, matricula, modelo, marca, estado, reparacion) VALUES(?, ?, ?, ?, ?, ?)");
 				consulta.setInt(1, vehiculo.getIdUsuario());
 				consulta.setString(2, vehiculo.getMatricula());
 				consulta.setString(3, vehiculo.getModelo());
 				consulta.setString(4, vehiculo.getMarca());
 				consulta.setInt(5, vehiculo.getEstado());
+				consulta.setBoolean(6, false);
 
 			} else {
 				consulta = conexion.prepareStatement("UPDATE " + this.tabla
-						+ " SET id_usuario = ?, matricula = ?, modelo = ?, marca = ? , reparacion = ? WHERE id = ?");
+						+ " SET id_usuario = ?, matricula = ?, modelo = ?, marca = ? , estado = ? ,reparacion = ? WHERE id = ?");
 				consulta.setInt(1, vehiculo.getIdUsuario());
 				consulta.setString(2, vehiculo.getMatricula());
 				consulta.setString(3, vehiculo.getModelo());
 				consulta.setString(4, vehiculo.getMarca());
-				consulta.setBoolean(5, vehiculo.isEnReparacion());
-				consulta.setInt(6, vehiculo.getId());
+				consulta.setInt(5, vehiculo.getEstado());
+				consulta.setBoolean(6, vehiculo.isEnReparacion());
+				consulta.setInt(7, vehiculo.getId());
 			}
 			consulta.executeUpdate();
 		} catch (SQLException ex) {
@@ -48,7 +50,7 @@ public class VehiculoController {
 		try {
 			PreparedStatement consulta = conexion
 					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado, reparacion FROM " + this.tabla
-							+ " WHERE id_usuario = ?");
+							+ " WHERE id_usuario = ? AND reparacion = 0");
 			consulta.setInt(1, u.getId());
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
@@ -67,7 +69,7 @@ public class VehiculoController {
 
 		try {
 			PreparedStatement consulta = conexion
-					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado, reparacion FROM " + this.tabla);
+					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado, reparacion FROM " + this.tabla + " WHERE reparacion != 0");
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				Vehiculo v = new Vehiculo(resultado.getInt("Id"), resultado.getInt("id_usuario"),

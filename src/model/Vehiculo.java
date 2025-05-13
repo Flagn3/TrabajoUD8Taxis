@@ -6,7 +6,7 @@ public class Vehiculo {
 	private int idUsuario;
 	private String matricula, modelo, marca;
 	private int estado;
-	private boolean enReparacion = false;
+	private boolean enReparacion;
 
 	public Vehiculo() {
 		super();
@@ -19,6 +19,16 @@ public class Vehiculo {
 		this.modelo = modelo;
 		this.marca = marca;
 		this.estado = estado;
+	}
+	
+	public Vehiculo(int idUsuario, String matricula, String modelo, String marca, int estado, boolean enReparacion) {
+		super();
+		this.idUsuario = idUsuario;
+		this.matricula = matricula;
+		this.modelo = modelo;
+		this.marca = marca;
+		this.estado = estado;
+		this.enReparacion = enReparacion;
 	}
 
 	public Vehiculo(Integer id, int idUsuario, String matricula, String modelo, String marca, int estado, boolean enReparacion) {
