@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -16,7 +17,6 @@ import control.Conexion;
 import control.VehiculoController;
 import model.Usuario;
 import model.Vehiculo;
-import java.awt.Font;
 
 public class VehiculoRegistratioView extends JFrame {
 
@@ -91,7 +91,7 @@ public class VehiculoRegistratioView extends JFrame {
 				if (!txtMatricula.getText().isEmpty() && !txtModelo.getText().isEmpty()
 						&& !txtMarca.getText().isEmpty()) {
 					Vehiculo v = new Vehiculo(usuarioActivo.getId(), txtMatricula.getText(), txtModelo.getText(),
-							txtMarca.getText());
+							txtMarca.getText(), 100);
 					try {
 						services.save(Conexion.obtener(), v);
 						dispose();
