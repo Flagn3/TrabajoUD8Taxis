@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,8 +12,10 @@ import control.UserController;
 import model.Usuario;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -41,97 +44,125 @@ public class UserRegistrationView extends JFrame {
 	 * Create the frame.
 	 */
 	public UserRegistrationView() {
+		super("Registro de Usuario");
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 350, 365);
+		setBounds(100, 100, 400, 450);
 		setLocationRelativeTo(null);
-		setVisible(true);
+		setResizable(false);
+
+		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(iconoVentana.getImage());
+
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
+		contentPane.setBackground(new Color(245, 245, 245));
 		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(null);
 
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(null);
+		JLabel title = new JLabel("Registro de Usuario");
+		title.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		title.setBounds(100, 10, 250, 30);
+		contentPane.add(title);
 
-		btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setBounds(50, 255, 90, 30);
-		panel.add(btnConfirmar);
-
-		btnVolver = new JButton("Volver");
-		btnVolver.setBounds(185, 255, 90, 30);
-		panel.add(btnVolver);
-
-		JLabel lblUsername = new JLabel("Username : ");
-		lblUsername.setBounds(50, 52, 80, 13);
-		panel.add(lblUsername);
-
-		textUsername = new JTextField();
-		textUsername.setBounds(147, 49, 128, 19);
-		panel.add(textUsername);
-		textUsername.setColumns(10);
-
-		JLabel lblPassword = new JLabel("Password : ");
-		lblPassword.setBounds(50, 81, 80, 13);
-		panel.add(lblPassword);
-
-		textPassword = new JTextField();
-		textPassword.setBounds(147, 78, 128, 19);
-		panel.add(textPassword);
-		textPassword.setColumns(10);
-
-		JLabel lblRol = new JLabel("Rol : ");
-		lblRol.setBounds(50, 111, 45, 13);
-		panel.add(lblRol);
-
-		rdbtnMecanico = new JRadioButton("Mecanico");
-		rdbtnMecanico.setBounds(147, 126, 103, 21);
-		panel.add(rdbtnMecanico);
-
-		rdbtnTaxista = new JRadioButton("Taxista");
-		rdbtnTaxista.setBounds(147, 103, 103, 21);
-		panel.add(rdbtnTaxista);
-
-		ButtonGroup grupo1 = new ButtonGroup();
-		grupo1.add(rdbtnMecanico);
-		grupo1.add(rdbtnTaxista);
-
-		JLabel lblNombre = new JLabel("Nombre : ");
-		lblNombre.setBounds(50, 156, 80, 13);
-		panel.add(lblNombre);
+		JLabel lblnombre = new JLabel("Nombre:");
+		lblnombre.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblnombre.setBounds(30, 50, 80, 20);
+		contentPane.add(lblnombre);
 
 		textNombre = new JTextField();
-		textNombre.setBounds(147, 153, 128, 19);
-		panel.add(textNombre);
-		textNombre.setColumns(10);
+		textNombre.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		textNombre.setBounds(120, 50, 200, 25);
+		contentPane.add(textNombre);
 
-		JLabel lblApellido = new JLabel("Apellido :");
-		lblApellido.setBounds(50, 185, 80, 13);
-		panel.add(lblApellido);
+		JLabel lblapellido = new JLabel("Apellido:");
+		lblapellido.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblapellido.setBounds(30, 90, 80, 20);
+		contentPane.add(lblapellido);
 
 		textApellido = new JTextField();
-		textApellido.setBounds(147, 182, 128, 19);
-		panel.add(textApellido);
-		textApellido.setColumns(10);
+		textApellido.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		textApellido.setBounds(120, 90, 200, 25);
+		contentPane.add(textApellido);
 
-		JLabel lblEmail = new JLabel("Email : ");
-		lblEmail.setBounds(50, 214, 80, 13);
-		panel.add(lblEmail);
+		JLabel lblusername = new JLabel("Usuario:");
+		lblusername.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblusername.setBounds(30, 130, 80, 20);
+		contentPane.add(lblusername);
+
+		textUsername = new JTextField();
+		textUsername.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		textUsername.setBounds(120, 130, 200, 25);
+		contentPane.add(textUsername);
+
+		JLabel lblpassword = new JLabel("Contraseña:");
+		lblpassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblpassword.setBounds(30, 170, 80, 20);
+		contentPane.add(lblpassword);
+
+		textPassword = new JTextField();
+		textPassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		textPassword.setBounds(120, 170, 200, 25);
+		contentPane.add(textPassword);
+
+		JLabel lblemail = new JLabel("Email:");
+		lblemail.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblemail.setBounds(30, 210, 80, 20);
+		contentPane.add(lblemail);
 
 		textEmail = new JTextField();
-		textEmail.setBounds(147, 211, 128, 19);
-		panel.add(textEmail);
-		textEmail.setColumns(10);
+		textEmail.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		textEmail.setBounds(120, 210, 200, 25);
+		contentPane.add(textEmail);
+
+		JLabel lblRol = new JLabel("Rol:");
+		lblRol.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblRol.setBounds(30, 250, 80, 20);
+		contentPane.add(lblRol);
+
+		rdbtnTaxista = new JRadioButton("Taxista");
+		rdbtnTaxista.setBounds(120, 250, 90, 20);
+		rdbtnTaxista.setBackground(new Color(245, 245, 245));
+		contentPane.add(rdbtnTaxista);
+
+		rdbtnMecanico = new JRadioButton("Mecánico");
+		rdbtnMecanico.setBounds(210, 250, 100, 20);
+		rdbtnMecanico.setBackground(new Color(245, 245, 245));
+		contentPane.add(rdbtnMecanico);
+
+		ButtonGroup grupoRol = new ButtonGroup();
+		grupoRol.add(rdbtnMecanico);
+		grupoRol.add(rdbtnTaxista);
+
+		btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnConfirmar.setForeground(Color.WHITE);
+		btnConfirmar.setBackground(new Color(40, 167, 69));
+		btnConfirmar.setFocusPainted(false);
+		btnConfirmar.setBorderPainted(false);
+		btnConfirmar.setBounds(60, 300, 120, 35);
+		contentPane.add(btnConfirmar);
+
+		btnVolver = new JButton("Volver");
+		btnVolver.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btnVolver.setForeground(Color.WHITE);
+		btnVolver.setBackground(new Color(220, 53, 69));
+		btnVolver.setFocusPainted(false);
+		btnVolver.setBorderPainted(false);
+		btnVolver.setBounds(200, 300, 120, 35);
+		contentPane.add(btnVolver);
 
 		ManejadorEventos me = new ManejadorEventos();
 		btnConfirmar.addActionListener(me);
 		btnVolver.addActionListener(me);
+
 		textNombre.addKeyListener(me);
 		textApellido.addKeyListener(me);
 		textUsername.addKeyListener(me);
 		textPassword.addKeyListener(me);
 		textEmail.addKeyListener(me);
+
+		setVisible(true);
 
 	}
 
@@ -168,10 +199,10 @@ public class UserRegistrationView extends JFrame {
 							e1.printStackTrace();
 						}
 					} else {
-						JOptionPane.showConfirmDialog(null, "No esta seleccionado el campo ROL");
+						JOptionPane.showMessageDialog(null, "No esta seleccionado el campo ROL");
 					}
 				} else {
-					JOptionPane.showConfirmDialog(null, "Faltan campos por rellenar");
+					JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
 				}
 			}
 		}
