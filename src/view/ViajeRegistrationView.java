@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import com.toedter.calendar.JDateChooser;
 
 import control.Conexion;
 import control.VehiculoController;
@@ -32,7 +36,8 @@ public class ViajeRegistrationView extends JFrame {
 	private static ViajeController viajeCont = new ViajeController();
 	private static VehiculoController vehiCont = new VehiculoController();
 	private static JLabel lblfecha, lblhora, lbldestino, lblkm, lblprecio, lblvehiculo;
-	private static JTextField txtfecha, txthora, txtdestino, txtkm, txtprecio;
+	private static JDateChooser dateChooser;
+	private static JTextField txthora, txtdestino, txtkm, txtprecio;
 	private static JButton btconfirmar, btcancelar;
 	private static JComboBox cbvehiculos;
 	private static Viaje viaje;
@@ -48,7 +53,8 @@ public class ViajeRegistrationView extends JFrame {
 		this.viaje = v;
 		this.userActivo = u;
 		iniciarComponentes();
-		txtfecha.setText(v.getFecha().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+		dateChooser.setDate(java.sql.Date.valueOf(v.getFecha()));
 		txthora.setText(v.getHora().format(DateTimeFormatter.ofPattern("HH:mm")));
 		txtdestino.setText(v.getDestino());
 		txtkm.setText(Float.toString(v.getKm()));
@@ -70,12 +76,14 @@ public class ViajeRegistrationView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 
-		lblfecha = new JLabel("Fecha (yyyy-MM-dd)");
+		lblfecha = new JLabel("Fecha");
 		lblfecha.setBounds(10, 14, 110, 14);
 		contentPane.add(lblfecha);
-		txtfecha = new JTextField(10);
-		txtfecha.setBounds(118, 11, 125, 20);
-		contentPane.add(txtfecha);
+
+		dateChooser = new JDateChooser();
+		dateChooser.setDateFormatString("yyyy-MM-dd");
+		dateChooser.setBounds(118, 11, 125, 20);
+		contentPane.add(dateChooser);
 
 		lblhora = new JLabel("Hora (HH:mm)");
 		lblhora.setBounds(10, 53, 98, 14);
@@ -117,7 +125,6 @@ public class ViajeRegistrationView extends JFrame {
 		btconfirmar.setBounds(21, 247, 99, 23);
 
 		btconfirmar.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				registrarViaje();
@@ -125,16 +132,13 @@ public class ViajeRegistrationView extends JFrame {
 				JOptionPane.showMessageDialog(null, "Viaje registrado con éxito", "Viaje registrado",
 						JOptionPane.INFORMATION_MESSAGE);
 				new GestionarViajesView(userActivo);
-
 			}
-
 		});
 		contentPane.add(btconfirmar);
 
 		btcancelar = new JButton("Cancelar");
 		btcancelar.setBounds(157, 247, 110, 23);
 		btcancelar.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -149,27 +153,27 @@ public class ViajeRegistrationView extends JFrame {
 	}
 
 	private static String[] cargarVehiculos() {
-
 		try {
 			vehiculos = vehiCont.getAllVehiculos(Conexion.obtener(), userActivo);
-
 		} catch (ClassNotFoundException | SQLException e) {
-			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido recuperar los viajes");
+			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido recuperar los vehículos");
 		}
 		List<String> datosVehiculos = new ArrayList<>();
-
 		for (Vehiculo v : vehiculos) {
 			String datos = v.getMarca() + " " + v.getModelo() + " (" + v.getMatricula() + ")";
 			datosVehiculos.add(datos);
 		}
-
-		return datosVehiculos.toArray(new String[datosVehiculos.size()]);
+		return datosVehiculos.toArray(new String[0]);
 	}
 
 	private void registrarViaje() {
 		try {
+			Date selectedDate = dateChooser.getDate();
+			if (selectedDate != null) {
+				LocalDate localDate = selectedDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+				viaje.setFecha(localDate);
+			}
 
-			viaje.setFecha(LocalDate.parse(txtfecha.getText()));
 			viaje.setHora(LocalTime.parse(txthora.getText()));
 			viaje.setDestino(txtdestino.getText());
 			viaje.setKm(Float.parseFloat(txtkm.getText()));
@@ -179,10 +183,7 @@ public class ViajeRegistrationView extends JFrame {
 
 			viajeCont.save(Conexion.obtener(), viaje);
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
 }
