@@ -3,8 +3,6 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -18,16 +16,14 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-
 import control.Conexion;
 import control.CrearPDF;
 import control.ReparacionController;
+import control.UserController;
+import control.VehiculoController;
 import model.Reparacion;
 import model.Usuario;
+import model.Vehiculo;
 
 public class HistorialView extends JFrame {
 
@@ -37,6 +33,8 @@ public class HistorialView extends JFrame {
 	private JTable tabla;
 	private Usuario usuarioActivo;
 	private ReparacionController reparacionController = new ReparacionController();
+	private VehiculoController vehiculoController = new VehiculoController();
+	private UserController userController = new UserController();
 	private List<Reparacion> reparaciones;
 
 	/**
@@ -110,7 +108,7 @@ public class HistorialView extends JFrame {
 			}
 
 			if (btnFiltrar == e.getSource()) {
-				
+
 			}
 
 			if (btnPDF == e.getSource()) {
@@ -144,12 +142,15 @@ public class HistorialView extends JFrame {
 
 	private void VerReparaciones(DefaultTableModel model) {
 		// TODO Auto-generated method stub
-		String[] columna = { "fecha", "hora", "coste", "id vehiculo" };
+		String[] columna = { "Fecha", "Hora", "Coste", "Vehiculo", "Taxista" };
 		model.setColumnIdentifiers(columna);
 		try {
 			reparaciones = reparacionController.getAllReparaciones(Conexion.obtener(), usuarioActivo);
 			for (Reparacion r : reparaciones) {
-				model.addRow(new Object[] { r.getFecha(), r.getHora(), r.getCoste(), r.getIdVehiculo() });
+				Vehiculo v = vehiculoController.getVehiculo(Conexion.obtener(), r.getIdVehiculo());
+				Usuario u = userController.getUser(Conexion.obtener(), v.getIdUsuario());
+				model.addRow(new Object[] { r.getFecha(), r.getHora(), r.getCoste(), v.getMatricula(),
+						u.getNombre() + " " + u.getApellido() });
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
