@@ -1,6 +1,8 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -29,64 +31,96 @@ public class LoginView extends JFrame {
 	private JTextField txtUsername;
 	private JPasswordField passwd;
 	private JButton login, registro, exit;
+	private JPanel FormaPanel;
 
 	/**
 	 * Create the frame.
 	 */
 	public LoginView() {
-		super("Inicio");
+		super("Inicio de sesion");
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 479, 352);
+		setBounds(100, 100, 520, 420);
 		setLocationRelativeTo(null);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setResizable(false);
 
-		ImageIcon imagen = new ImageIcon("file/TaxiCarga.png");
-		setIconImage(imagen.getImage());
+		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(iconoVentana.getImage());
 
-		lblUsername = new JLabel("Username");
-		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblUsername.setBounds(155, 37, 112, 40);
+		contentPane = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				ImageIcon fondo = new ImageIcon("file/fondo_login.jpg");
+				g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+		contentPane.setLayout(null);
+		setContentPane(contentPane);
 
-		txtUsername = new JTextField(30);
-		txtUsername.setBounds(155, 87, 112, 19);
+		FormaPanel = new JPanel();
+		FormaPanel.setLayout(null);
+		FormaPanel.setBackground(new Color(255, 255, 255, 210));
+		FormaPanel.setBounds(60, 80, 380, 250);
+		FormaPanel.setBorder(null);
+		FormaPanel.setOpaque(false);
+		contentPane.add(FormaPanel);
 
-		lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblPassword.setBounds(155, 116, 82, 40);
+		lblUsername = new JLabel("Usuario : ");
+		lblUsername.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblUsername.setBounds(40, 20, 100, 25);
+		lblUsername.setOpaque(true);
+		lblUsername.setBackground(new Color(255, 255, 255, 200));
+		lblUsername.setForeground(Color.BLACK);
+		FormaPanel.add(lblUsername);
+
+		txtUsername = new JTextField();
+		txtUsername.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		txtUsername.setBounds(150, 20, 180, 25);
+		FormaPanel.add(txtUsername);
+
+		lblPassword = new JLabel("Contraseña : ");
+		lblPassword.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblPassword.setBounds(40, 70, 100, 25);
+		lblPassword.setOpaque(true);
+		lblPassword.setBackground(new Color(255, 255, 255, 200));
+		lblPassword.setForeground(Color.BLACK);
+		FormaPanel.add(lblPassword);
 
 		passwd = new JPasswordField(30);
-		passwd.setBounds(155, 156, 112, 19);
+		passwd.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		passwd.setBounds(150, 70, 180, 25);
+		FormaPanel.add(passwd);
 
-		login = new JButton("Login");
-		login.setBounds(105, 215, 100, 34);
+		login = new JButton("Iniciar Sesion");
+		login.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		login.setBackground(Color.BLUE);
+		login.setForeground(Color.WHITE);
+		login.setBounds(40, 130, 140, 35);
+		login.setFocusPainted(false);
+		FormaPanel.add(login);
 
-		registro = new JButton("Registro");
-		registro.setBounds(253, 215, 100, 34);
+		registro = new JButton("Registrarse");
+		registro.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		registro.setBackground(Color.GREEN);
+		registro.setForeground(Color.WHITE);
+		registro.setBounds(190, 130, 140, 35);
+		registro.setFocusPainted(false);
+		FormaPanel.add(registro);
 
 		ImageIcon img = new ImageIcon("file/salir.png");
 		exit = new JButton(img);
-		exit.setBounds(415, 265, 40, 40);
+		exit.setBounds(460, 320, 32, 32);
 		exit.setContentAreaFilled(false);
 		exit.setBorderPainted(false);
 		exit.setFocusPainted(false);
 		exit.setOpaque(false);
-
+		contentPane.add(exit);
 
 		ManejadorEventos m = new ManejadorEventos();
 		login.addActionListener(m);
 		registro.addActionListener(m);
 		exit.addActionListener(m);
-
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		contentPane.add(lblUsername);
-		contentPane.add(txtUsername);
-		contentPane.add(lblPassword);
-		contentPane.add(passwd);
-		contentPane.add(login);
-		contentPane.add(registro);
-		contentPane.add(exit);
 
 		setVisible(true);
 	}
@@ -141,7 +175,6 @@ public class LoginView extends JFrame {
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				// prueba
 			}
 
 			if (o == registro) {

@@ -3,8 +3,6 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,19 +13,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 
 import control.Conexion;
 import control.CrearPDF;
 import control.ReparacionController;
+import control.UserController;
+import control.VehiculoController;
 import model.Reparacion;
 import model.Usuario;
+import model.Vehiculo;
 
 public class HistorialView extends JFrame {
 
@@ -37,7 +34,10 @@ public class HistorialView extends JFrame {
 	private JTable tabla;
 	private Usuario usuarioActivo;
 	private ReparacionController reparacionController = new ReparacionController();
+	private VehiculoController vehiculoController = new VehiculoController();
+	private UserController userController = new UserController();
 	private List<Reparacion> reparaciones;
+	private static JTextField txtfiltro;
 
 	/**
 	 * Create the frame.
@@ -48,7 +48,7 @@ public class HistorialView extends JFrame {
 		setTitle("Historial");
 		this.usuarioActivo = u;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 630, 300);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -61,32 +61,34 @@ public class HistorialView extends JFrame {
 		panel.setLayout(null);
 
 		btnFiltrar = new JButton("Filtrar");
-		btnFiltrar.setBounds(10, 24, 85, 30);
+		btnFiltrar.setBounds(462, 24, 85, 30);
 		panel.add(btnFiltrar);
 
 		btnPDF = new JButton("Crear PDF");
-		btnPDF.setBounds(105, 24, 120, 30);
+		btnPDF.setBounds(10, 24, 120, 30);
 		panel.add(btnPDF);
 
 		ImageIcon imgVolver = new ImageIcon("file/back.jpg");
 		btnVolver = new JButton(imgVolver);
-		btnVolver.setBounds(376, 10, 40, 40);
+		btnVolver.setBounds(530, 78, 40, 40);
 		btnVolver.setContentAreaFilled(false);
 		btnVolver.setBorderPainted(false);
 		btnVolver.setFocusPainted(false);
 		btnVolver.setOpaque(false);
 		panel.add(btnVolver);
 
+		txtfiltro = new JTextField(15);
+		txtfiltro.setBounds(297, 24, 141, 30);
+		panel.add(txtfiltro);
+
 		tabla = new JTable();
-		DefaultTableModel model = new DefaultTableModel();
-		VerReparaciones(model);
-		tabla.setModel(model);
+		filtrarHistorial();
 		JScrollPane scrollPane = new JScrollPane(tabla);
-		scrollPane.setBounds(0, 64, 426, 189);
+		scrollPane.setBounds(0, 64, 499, 189);
 		panel.add(scrollPane);
 
 		btnDescripcion = new JButton("Descripcion");
-		btnDescripcion.setBounds(235, 24, 120, 30);
+		btnDescripcion.setBounds(156, 24, 120, 30);
 		panel.add(btnDescripcion);
 
 		ManejadorEventos me = new ManejadorEventos();
@@ -110,7 +112,7 @@ public class HistorialView extends JFrame {
 			}
 
 			if (btnFiltrar == e.getSource()) {
-				
+				filtrarHistorial();
 			}
 
 			if (btnPDF == e.getSource()) {
@@ -142,18 +144,36 @@ public class HistorialView extends JFrame {
 
 	}
 
-	private void VerReparaciones(DefaultTableModel model) {
-		// TODO Auto-generated method stub
-		String[] columna = { "fecha", "hora", "coste", "id vehiculo" };
-		model.setColumnIdentifiers(columna);
+	private void filtrarHistorial() {
+		String textoFiltro = txtfiltro.getText().trim().toLowerCase();
 		try {
 			reparaciones = reparacionController.getAllReparaciones(Conexion.obtener(), usuarioActivo);
-			for (Reparacion r : reparaciones) {
-				model.addRow(new Object[] { r.getFecha(), r.getHora(), r.getCoste(), r.getIdVehiculo() });
-			}
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		DefaultTableModel modeloFiltrado = new DefaultTableModel();
+		modeloFiltrado.setColumnIdentifiers(new String[] { "Fecha", "Hora", "Coste", "Vehiculo", "Taxista" });
+
+		for (Reparacion r : reparaciones) {
+			try {
+				Vehiculo v = vehiculoController.getVehiculo(Conexion.obtener(), r.getIdVehiculo());
+				Usuario u = userController.getUser(Conexion.obtener(), v.getIdUsuario());
+
+				String matricula = v.getMatricula().toLowerCase();
+				String nombreCompleto = (u.getNombre() + " " + u.getApellido()).toLowerCase();
+
+				if (matricula.contains(textoFiltro) || nombreCompleto.contains(textoFiltro)) {
+					modeloFiltrado.addRow(new Object[] { r.getFecha(), r.getHora(), r.getCoste(), v.getMatricula(),
+							u.getNombre() + " " + u.getApellido() });
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		tabla.setModel(modeloFiltrado);
 	}
+
 }
