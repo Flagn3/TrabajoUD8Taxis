@@ -38,7 +38,6 @@ public class ReparacionView extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-
 		tablaVehiculos = new JTable();
 
 		showVehiculos();
@@ -49,8 +48,7 @@ public class ReparacionView extends JFrame {
 		scrollPane.add(tablaVehiculos);
 		scrollPane.setViewportView(tablaVehiculos);
 		contentPane.add(scrollPane);
-		
-		
+
 		reparar = new JButton("Reparar Vehículo");
 		reparar.setBounds(219, 10, 157, 47);
 		reparar.addActionListener(new ActionListener() {
@@ -79,25 +77,25 @@ public class ReparacionView extends JFrame {
 			}
 
 		});
-		
+
 		ImageIcon volverImage = new ImageIcon("file/back.jpg");
 		volver = new JButton(volverImage);
 		volver.setBounds(499, 10, 56, 53);
-		
+
 		volver.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				dispose();
 				new MecanicoView(usuarioActivo);
-				
+
 			}
 		});
 
 		contentPane.add(reparar);
 		contentPane.add(volver);
-		
+
 		setContentPane(contentPane);
 		setVisible(true);
 		setLocationRelativeTo(null);
@@ -112,10 +110,8 @@ public class ReparacionView extends JFrame {
 			DefaultTableModel dtm = (DefaultTableModel) tablaVehiculos.getModel();
 			dtm.setRowCount(0);
 			for (int i = 0; i < this.vehiculos.size(); i++) {
-				if (this.vehiculos.get(i).isEnReparacion() == true) {
-					dtm.addRow(new Object[] { this.vehiculos.get(i).getMatricula(), this.vehiculos.get(i).getModelo(),
-							this.vehiculos.get(i).getMarca(), this.vehiculos.get(i).getEstado() });
-				}
+				dtm.addRow(new Object[] { this.vehiculos.get(i).getMatricula(), this.vehiculos.get(i).getModelo(),
+						this.vehiculos.get(i).getMarca(), this.vehiculos.get(i).getEstado() });
 			}
 
 		} catch (SQLException ex) {
