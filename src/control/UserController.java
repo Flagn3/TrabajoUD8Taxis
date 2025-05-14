@@ -75,12 +75,13 @@ public class UserController {
 	public Usuario getUser(Connection conexion, int id) {
 		Usuario usuario = null;
 		try {
-			PreparedStatement consulta = conexion.prepareStatement(
-					"SELECT * FROM " + this.tabla + " WHERE id = ?");
+			PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM " + this.tabla + " WHERE id = ?");
 			consulta.setInt(1, id);
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
-				usuario = new Usuario();
+				usuario = new Usuario(id, resultado.getString("nombre"), resultado.getString("apellido"),
+						resultado.getString("username"), resultado.getString("password"), resultado.getString("rol"),
+						resultado.getString("email"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -86,7 +86,7 @@ public class HistorialView extends JFrame {
 		panel.add(scrollPane);
 
 		btnDescripcion = new JButton("Descripcion");
-		btnDescripcion.setBounds(235, 24, 100, 30);
+		btnDescripcion.setBounds(235, 24, 120, 30);
 		panel.add(btnDescripcion);
 
 		ManejadorEventos me = new ManejadorEventos();
@@ -110,7 +110,7 @@ public class HistorialView extends JFrame {
 			}
 
 			if (btnFiltrar == e.getSource()) {
-
+				
 			}
 
 			if (btnPDF == e.getSource()) {
