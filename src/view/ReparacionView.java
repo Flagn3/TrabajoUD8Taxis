@@ -58,19 +58,9 @@ public class ReparacionView extends JFrame {
 
 				int filaseleccionada = tablaVehiculos.getSelectedRow();
 				if (filaseleccionada >= 0) {
-					try {
-						vehiculos.get(filaseleccionada).setEstado(100);
-						vehiculos.get(filaseleccionada).setEnReparacion(false);
-						controller.save(Conexion.obtener(), vehiculos.get(filaseleccionada));
-						showVehiculos();
-						JOptionPane.showMessageDialog(null, "Vehículo reparado");
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					dispose();
+					new HistorialRegistrationView(usuarioActivo, vehiculos.get(filaseleccionada));
+					showVehiculos();
 				} else {
 					JOptionPane.showMessageDialog(null, "Selecciona un vehículo", "Error", JOptionPane.ERROR_MESSAGE);
 				}
