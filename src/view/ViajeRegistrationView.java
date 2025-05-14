@@ -131,6 +131,14 @@ public class ViajeRegistrationView extends JFrame {
 				dispose();
 				JOptionPane.showMessageDialog(null, "Viaje registrado con éxito", "Viaje registrado",
 						JOptionPane.INFORMATION_MESSAGE);
+				Vehiculo vehiSeleccionado = vehiculos.get(cbvehiculos.getSelectedIndex());
+				vehiSeleccionado.setEstado(vehiSeleccionado.getEstado() - 5);
+				try {
+					vehiCont.save(Conexion.obtener(), vehiSeleccionado);
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				new GestionarViajesView(userActivo);
 			}
 		});
