@@ -185,6 +185,9 @@ public class AdminView extends JFrame {
 
 				}
 
+			} else if (o == btgrafica) {
+				dispose();
+				new EstadisticasView(usuarioActivo);
 			}
 
 		}
