@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -90,6 +91,7 @@ public class HistorialView extends JFrame {
 		panel.add(txtfiltro);
 
 		tabla = new JTable();
+		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		filtrarHistorial();
 		JScrollPane scrollPane = new JScrollPane(tabla);
 		scrollPane.setBounds(0, 64, 900, 713);

@@ -38,14 +38,40 @@ public class UserRegistrationView extends JFrame {
 	private JTextField textEmail;
 	private JRadioButton rdbtnMecanico, rdbtnTaxista;
 	private JButton btnConfirmar, btnVolver;
-	private final UserController services = new UserController();
+	private final UserController controller = new UserController();
+	private static Usuario nuevoUsuario;
+	private static Usuario usuarioActivo;
 
 	/**
 	 * Create the frame.
 	 */
 	public UserRegistrationView() {
-		super("Registro de Usuario");
 
+		nuevoUsuario = new Usuario();
+		iniciarComponentes();
+
+	}
+
+	public UserRegistrationView(Usuario u, Usuario activo) {
+
+		this.usuarioActivo = activo;
+		this.nuevoUsuario = u;
+		iniciarComponentes();
+		textNombre.setText(u.getNombre());
+		textApellido.setText(u.getApellido());
+		textUsername.setText(u.getUsername());
+		textPassword.setText(u.getPassword());
+		textEmail.setText(u.getEmail());
+		if (u.getRol().equalsIgnoreCase("TAXISTA")) {
+			rdbtnTaxista.setSelected(true);
+		} else if (u.getRol().equalsIgnoreCase("MECANICO")) {
+			rdbtnMecanico.setSelected(true);
+		}
+
+	}
+
+	private void iniciarComponentes() {
+		setTitle("Registro de Usuario");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 450);
 		setLocationRelativeTo(null);
@@ -163,7 +189,6 @@ public class UserRegistrationView extends JFrame {
 		textEmail.addKeyListener(me);
 
 		setVisible(true);
-
 	}
 
 	public class ManejadorEventos implements ActionListener, KeyListener {
@@ -174,8 +199,14 @@ public class UserRegistrationView extends JFrame {
 			Object o = e.getSource();
 
 			if (o == btnVolver) {
-				dispose();
-				new LoginView();
+
+				if (nuevoUsuario.getId() == null) {
+					dispose();
+					new LoginView();
+				} else {
+					dispose();
+					new AdminView(usuarioActivo);
+				}
 			}
 
 			if (o == btnConfirmar) {
@@ -184,13 +215,23 @@ public class UserRegistrationView extends JFrame {
 						&& !textEmail.getText().isEmpty()) {
 					if (rdbtnMecanico.isSelected() || rdbtnTaxista.isSelected()) {
 						try {
-							Usuario user = new Usuario(textNombre.getText(), textApellido.getText(),
-									textPassword.getText(), textUsername.getText(),
-									rdbtnMecanico.isSelected() ? "mecanico" : "taxista", textEmail.getText());
-							services.save(Conexion.obtener(), user);
-							dispose();
-							new LoginView();
-							JOptionPane.showMessageDialog(null, "Usuario añadido con exito");
+
+							nuevoUsuario.setNombre(textNombre.getText());
+							nuevoUsuario.setApellido(textApellido.getText());
+							nuevoUsuario.setPassword(textPassword.getText());
+							nuevoUsuario.setUsername(textUsername.getText());
+							nuevoUsuario.setEmail(textEmail.getText());
+							nuevoUsuario.setRol(rdbtnMecanico.isSelected() ? "mecanico" : "taxista");
+							controller.save(Conexion.obtener(), nuevoUsuario);
+							if (nuevoUsuario.getId() == null) {
+								dispose();
+								new LoginView();
+								JOptionPane.showMessageDialog(null, "Usuario añadido con exito");
+							} else {
+								dispose();
+								new AdminView(usuarioActivo);
+								JOptionPane.showMessageDialog(null, "Usuario editado con exito");
+							}
 						} catch (ClassNotFoundException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

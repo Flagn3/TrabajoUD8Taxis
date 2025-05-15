@@ -71,6 +71,7 @@ public class GestionarVehiculosView extends JFrame {
 		repararVehiculo.addActionListener(m);
 
 		tablaVehiculos = new JTable();
+		tablaVehiculos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		showVehiculos();
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(25, 86, 518, 167);
