@@ -49,7 +49,7 @@ public class CrearPDF {
 		Document documento = new Document();
 		try {
 			PdfWriter.getInstance(documento,
-					new FileOutputStream("PDFreparaciones/reparacion_" + reparacion.getId() + ".pdf"));
+					new FileOutputStream("PDFreparaciones/factura_" + reparacion.getId() + ".pdf"));
 			documento.open();
 
 			Paragraph titulo = new Paragraph("T-MOVE REPARATIONS - FACTURA", FuenteTitulo);
