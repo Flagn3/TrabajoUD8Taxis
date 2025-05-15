@@ -1,10 +1,18 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,7 +31,7 @@ public class AdminView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static JButton bteliminar, bteditar, btexit;
+	private static JButton bteliminar, bteditar, btexit, btgrafica;
 	private JTable table;
 	private final UserController services = new UserController();
 	private List<Usuario> usuarios;
@@ -32,40 +40,71 @@ public class AdminView extends JFrame {
 	 * Create the frame.
 	 */
 	public AdminView(Usuario u) {
+		setTitle("Panel de Administrador");
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setTitle("Admin");
+		setResizable(false);
 
+		contentPane = new JPanel(new BorderLayout(10, 10));
+		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
+		contentPane.setBackground(new Color(245, 245, 245));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+
+		JPanel panelArriba = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
+		panelArriba.setBackground(new Color(245, 245, 245));
+		panelArriba.setPreferredSize(new Dimension(130, 60));
+		contentPane.add(panelArriba, BorderLayout.EAST);
 
 		bteliminar = new JButton("Eliminar");
-		bteliminar.setBounds(105, 23, 92, 23);
-		contentPane.add(bteliminar);
+		bteliminar.setBackground(new Color(220, 53, 69));
+		bteliminar.setForeground(Color.WHITE);
+		bteliminar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		bteliminar.setFocusPainted(false);
+		bteliminar.setBorderPainted(false);
+		bteliminar.setPreferredSize(new Dimension(100, 35));
+		panelArriba.add(bteliminar);
 
 		bteditar = new JButton("Editar");
-		bteditar.setBounds(235, 23, 75, 23);
-		contentPane.add(bteditar);
+		bteditar.setBackground(new Color(255, 193, 7));
+		bteditar.setForeground(Color.WHITE);
+		bteditar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		bteditar.setFocusPainted(false);
+		bteditar.setBorderPainted(false);
+		bteditar.setPreferredSize(new Dimension(100, 35));
+		panelArriba.add(bteditar);
+		
+		btgrafica = new JButton("Grafica");
+		btgrafica.setBackground(new Color(0, 153, 76));
+		btgrafica.setForeground(Color.WHITE);
+		btgrafica.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btgrafica.setFocusPainted(false);
+		btgrafica.setBorderPainted(false);
+		btgrafica.setPreferredSize(new Dimension(100, 35));
+		panelArriba.add(btgrafica);
 
 		ImageIcon img = new ImageIcon("file/salir.png");
 		btexit = new JButton(img);
-		btexit.setBounds(384, 10, 40, 40);
-		contentPane.add(btexit);
-		
-		ManejadorEventos m = new ManejadorEventos();
-		btexit.addActionListener(m);
+		btexit.setPreferredSize(new Dimension(40, 40));
+		btexit.setFocusPainted(false);
+		btexit.setContentAreaFilled(false);
+		btexit.setBorderPainted(false);
+		panelArriba.add(Box.createHorizontalStrut(30));
+		panelArriba.add(btexit);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(25, 97, 399, 146);
-		contentPane.add(scrollPane);
+		scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		contentPane.add(scrollPane, BorderLayout.CENTER);
 
 		table = new JTable();
 		showUsuarios();
+		table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		table.setRowHeight(25);
+		table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
 		scrollPane.setViewportView(table);
 
-		setResizable(false);
+		ManejadorEventos m = new ManejadorEventos();
+		btexit.addActionListener(m);
+
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
@@ -94,20 +133,20 @@ public class AdminView extends JFrame {
 		}
 	}
 
-	private class ManejadorEventos implements ActionListener{
+	private class ManejadorEventos implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
 			Object o = e.getSource();
-			
-			if(o == btexit) {
+
+			if (o == btexit) {
 				dispose();
 				new LoginView();
 			}
-			
+
 		}
-		
+
 	}
-	
+
 }

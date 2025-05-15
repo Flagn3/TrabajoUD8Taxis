@@ -29,6 +29,7 @@ public class TaxistaView extends JFrame {
 
 		gestionarVehiculos = new JButton("Gestionar Vehículos");
 		gestionarVehiculos.setBounds(61, 128, 163, 42);
+		
 		gestionarViajes = new JButton("Gestionar Viajes");
 		gestionarViajes.setBounds(61, 57, 163, 42);
 
