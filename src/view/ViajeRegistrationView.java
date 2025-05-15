@@ -2,6 +2,8 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -113,6 +115,13 @@ public class ViajeRegistrationView extends JFrame {
 		txtprecio.setBounds(118, 163, 125, 20);
 		contentPane.add(txtprecio);
 
+		
+		ManejadorEventos m = new ManejadorEventos();
+		txthora.addKeyListener(m);
+		txtdestino.addKeyListener(m);
+		txtkm.addKeyListener(m);
+		txtprecio.addKeyListener(m);
+		
 		lblvehiculo = new JLabel("Vehículo");
 		lblvehiculo.setBounds(10, 204, 79, 14);
 		contentPane.add(lblvehiculo);
@@ -193,5 +202,38 @@ public class ViajeRegistrationView extends JFrame {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private class ManejadorEventos implements KeyListener{
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+
+			if(txthora.getText().length() >= 10) {
+				e.consume();
+			}
+			if(txtdestino.getText().length() >= 30) {
+				e.consume();
+			}
+			if(txtkm.getText().length() >= 12) {
+				e.consume();
+			}
+			if(txtprecio.getText().length() >= 12) {
+				e.consume();
+			}
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }
