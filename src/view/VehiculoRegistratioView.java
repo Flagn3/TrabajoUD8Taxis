@@ -3,6 +3,8 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -61,6 +63,12 @@ public class VehiculoRegistratioView extends JFrame {
 		ManejadorEventos m = new ManejadorEventos();
 		addVehiculo.addActionListener(m);
 		cancelar.addActionListener(m);
+		
+		
+		txtMatricula.addKeyListener(m);
+		txtMarca.addKeyListener(m);
+		txtModelo.addKeyListener(m);
+		
 		contentPane.setLayout(null);
 
 		contentPane.add(lblMatricula);
@@ -78,7 +86,7 @@ public class VehiculoRegistratioView extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
-	private class ManejadorEventos implements ActionListener {
+	private class ManejadorEventos implements ActionListener, KeyListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -112,6 +120,33 @@ public class VehiculoRegistratioView extends JFrame {
 				}
 			}
 
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+
+			if(txtMatricula.getText().length() >= 15) {
+				e.consume();
+			}
+			if(txtMarca.getText().length() >= 30) {
+				e.consume();
+			}
+			if(txtModelo.getText().length() >= 30) {
+				e.consume();
+			}
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 
 	}

@@ -3,6 +3,8 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -88,7 +90,15 @@ public class HistorialRegistrationView extends JFrame {
 		cancelar = new JButton("Cancelar");
 		cancelar.setBounds(167, 341, 88, 44);
 		contentPane.add(cancelar);
-
+		
+		
+		ManejadorEventos m = new ManejadorEventos();
+		txthora.addKeyListener(m);
+		txtPrecio.addKeyListener(m);
+		areaDescripcion.addKeyListener(m);
+		
+		
+		
 		cancelar.addActionListener(new ActionListener() {
 
 			@Override
@@ -142,6 +152,38 @@ public class HistorialRegistrationView extends JFrame {
 		setContentPane(contentPane);
 		setVisible(true);
 		setLocationRelativeTo(null);
+	}
+	
+	private class ManejadorEventos implements KeyListener{
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+
+			if(txthora.getText().length() >= 10) {
+				e.consume();
+			}
+			if(areaDescripcion.getText().length()>=200) {
+				e.consume();
+			}
+			if(txtPrecio.getText().length() >= 12) {
+				e.consume();
+			}
+				
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 
 }
