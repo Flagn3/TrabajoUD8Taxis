@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,6 +40,7 @@ public class ReparacionView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		tablaVehiculos = new JTable();
+		tablaVehiculos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		showVehiculos();
 		contentPane.setLayout(null);
@@ -48,6 +50,7 @@ public class ReparacionView extends JFrame {
 		scrollPane.add(tablaVehiculos);
 		scrollPane.setViewportView(tablaVehiculos);
 		contentPane.add(scrollPane);
+		
 
 		reparar = new JButton("Reparar Vehículo");
 		reparar.setBounds(219, 10, 157, 47);

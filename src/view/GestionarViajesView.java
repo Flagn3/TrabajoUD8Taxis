@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -53,20 +54,20 @@ public class GestionarViajesView extends JFrame {
 		ImageIcon img = new ImageIcon("file/salir.png");
 		volver = new JButton(img);
 		volver.setBounds(513, 10, 45, 31);
-		
+
 		contentPane.add(btadd);
 		contentPane.add(btupdate);
 		contentPane.add(btborrar);
 		contentPane.add(volver);
-		
+
 		volver.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				dispose();
 				new TaxistaView(userActivo);
-				
+
 			}
 		});
 
@@ -152,6 +153,7 @@ public class GestionarViajesView extends JFrame {
 						v.getIdVehiculo() });
 			}
 			tabla = new JTable(model);
+			tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());

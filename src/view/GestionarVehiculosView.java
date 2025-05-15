@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -70,6 +71,7 @@ public class GestionarVehiculosView extends JFrame {
 		repararVehiculo.addActionListener(m);
 
 		tablaVehiculos = new JTable();
+		tablaVehiculos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		showVehiculos();
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(25, 86, 518, 167);
