@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -30,7 +32,7 @@ public class HistorialView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JButton btnFiltrar, btnPDF, btnVolver, btnDescripcion;
+	private JButton btnFiltrar, btnPDF, btnPDFCompleto, btnVolver, btnDescripcion;
 	private JTable tabla;
 	private Usuario usuarioActivo;
 	private ReparacionController reparacionController = new ReparacionController();
@@ -38,6 +40,7 @@ public class HistorialView extends JFrame {
 	private UserController userController = new UserController();
 	private List<Reparacion> reparaciones;
 	private static JTextField txtfiltro;
+	private DefaultTableModel modeloFiltrado;
 
 	/**
 	 * Create the frame.
@@ -48,7 +51,8 @@ public class HistorialView extends JFrame {
 		setTitle("Historial");
 		this.usuarioActivo = u;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 630, 300);
+		setBounds(100, 100, 1920, 1080);
+		setResizable(false);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -61,12 +65,16 @@ public class HistorialView extends JFrame {
 		panel.setLayout(null);
 
 		btnFiltrar = new JButton("Filtrar");
-		btnFiltrar.setBounds(462, 24, 85, 30);
+		btnFiltrar.setBounds(815, 24, 85, 30);
 		panel.add(btnFiltrar);
 
 		btnPDF = new JButton("Crear PDF");
-		btnPDF.setBounds(10, 24, 120, 30);
+		btnPDF.setBounds(140, 24, 120, 30);
 		panel.add(btnPDF);
+
+		btnPDFCompleto = new JButton("Crear PDF Historial");
+		btnPDFCompleto.setBounds(10, 24, 120, 30);
+		panel.add(btnPDFCompleto);
 
 		ImageIcon imgVolver = new ImageIcon("file/back.jpg");
 		btnVolver = new JButton(imgVolver);
@@ -78,17 +86,17 @@ public class HistorialView extends JFrame {
 		panel.add(btnVolver);
 
 		txtfiltro = new JTextField(15);
-		txtfiltro.setBounds(297, 24, 141, 30);
+		txtfiltro.setBounds(664, 25, 141, 30);
 		panel.add(txtfiltro);
 
 		tabla = new JTable();
 		filtrarHistorial();
 		JScrollPane scrollPane = new JScrollPane(tabla);
-		scrollPane.setBounds(0, 64, 499, 189);
+		scrollPane.setBounds(0, 64, 900, 713);
 		panel.add(scrollPane);
 
 		btnDescripcion = new JButton("Descripcion");
-		btnDescripcion.setBounds(156, 24, 120, 30);
+		btnDescripcion.setBounds(534, 24, 120, 30);
 		panel.add(btnDescripcion);
 
 		ManejadorEventos me = new ManejadorEventos();
@@ -96,6 +104,7 @@ public class HistorialView extends JFrame {
 		btnFiltrar.addActionListener(me);
 		btnPDF.addActionListener(me);
 		btnDescripcion.addActionListener(me);
+		btnPDFCompleto.addActionListener(me);
 
 		setVisible(true);
 		setLocationRelativeTo(null);
@@ -123,6 +132,10 @@ public class HistorialView extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(null, "Fila no seleccionada");
 				}
+			}
+			
+			if (btnPDFCompleto == e.getSource()) {
+				CrearPDF.PDFTabla(modeloFiltrado);
 			}
 
 			if (btnDescripcion == e.getSource()) {
@@ -153,7 +166,7 @@ public class HistorialView extends JFrame {
 			e.printStackTrace();
 		}
 
-		DefaultTableModel modeloFiltrado = new DefaultTableModel();
+		modeloFiltrado = new DefaultTableModel();
 		modeloFiltrado.setColumnIdentifiers(new String[] { "Fecha", "Hora", "Coste", "Vehiculo", "Taxista" });
 
 		for (Reparacion r : reparaciones) {
