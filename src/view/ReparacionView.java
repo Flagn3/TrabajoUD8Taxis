@@ -88,7 +88,6 @@ public class ReparacionView extends JFrame {
 
 				int filaseleccionada = tablaVehiculos.getSelectedRow();
 				if (filaseleccionada >= 0) {
-					dispose();
 					new HistorialRegistrationView(usuarioActivo, vehiculos.get(filaseleccionada));
 					showVehiculos();
 				} else {
