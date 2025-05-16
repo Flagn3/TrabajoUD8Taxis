@@ -49,6 +49,9 @@ public class AdminView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
 		contentPane.setBackground(new Color(245, 245, 245));
 		setContentPane(contentPane);
+		
+		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(iconoVentana.getImage());
 
 		JPanel panelArriba = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
 		panelArriba.setBackground(new Color(245, 245, 245));
