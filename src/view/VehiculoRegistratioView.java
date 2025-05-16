@@ -63,12 +63,11 @@ public class VehiculoRegistratioView extends JFrame {
 		ManejadorEventos m = new ManejadorEventos();
 		addVehiculo.addActionListener(m);
 		cancelar.addActionListener(m);
-		
-		
+
 		txtMatricula.addKeyListener(m);
 		txtMarca.addKeyListener(m);
 		txtModelo.addKeyListener(m);
-		
+
 		contentPane.setLayout(null);
 
 		contentPane.add(lblMatricula);
@@ -79,8 +78,7 @@ public class VehiculoRegistratioView extends JFrame {
 		contentPane.add(txtModelo);
 		contentPane.add(addVehiculo);
 		contentPane.add(cancelar);
-		
-		
+
 		setContentPane(contentPane);
 		setVisible(true);
 		setLocationRelativeTo(null);
@@ -98,20 +96,27 @@ public class VehiculoRegistratioView extends JFrame {
 			} else {
 				if (!txtMatricula.getText().isEmpty() && !txtModelo.getText().isEmpty()
 						&& !txtMarca.getText().isEmpty()) {
-					Vehiculo v = new Vehiculo(usuarioActivo.getId(), txtMatricula.getText(), txtModelo.getText(),
-							txtMarca.getText(), 100, false);
-					try {
-						services.save(Conexion.obtener(), v);
+
+					if (txtMatricula.getText().matches("[0-9]{4}[-][^aeiouAEIOUa-z]{3}")) {
+						Vehiculo v = new Vehiculo(usuarioActivo.getId(), txtMatricula.getText(), txtModelo.getText(),
+								txtMarca.getText(), 100, false);
+
+						try {
+							services.save(Conexion.obtener(), v);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						dispose();
 						new GestionarVehiculosView(usuarioActivo);
 						JOptionPane.showMessageDialog(null, "Vehículo registrado con éxito", "Vehículo registrado",
 								JOptionPane.INFORMATION_MESSAGE);
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					} else {
+						JOptionPane.showMessageDialog(null, "Formato de la matricula incorrecto 1111-BBB", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 
 				} else {
@@ -125,28 +130,28 @@ public class VehiculoRegistratioView extends JFrame {
 		@Override
 		public void keyTyped(KeyEvent e) {
 
-			if(txtMatricula.getText().length() >= 15) {
+			if (txtMatricula.getText().length() >= 15) {
 				e.consume();
 			}
-			if(txtMarca.getText().length() >= 30) {
+			if (txtMarca.getText().length() >= 30) {
 				e.consume();
 			}
-			if(txtModelo.getText().length() >= 30) {
+			if (txtModelo.getText().length() >= 30) {
 				e.consume();
 			}
-			
+
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 	}
