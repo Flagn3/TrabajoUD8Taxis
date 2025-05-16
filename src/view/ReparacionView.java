@@ -1,10 +1,16 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,28 +38,49 @@ public class ReparacionView extends JFrame {
 	private Usuario usuarioActivo;
 
 	public ReparacionView(Usuario u) {
-		super("Vehiculos en reparación");
 		this.usuarioActivo = u;
+		setTitle("Panel de Reparacion de Vehículos");
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 609, 333);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setResizable(false);
+		
+		contentPane = new JPanel(new BorderLayout(10, 10));
+		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
+		contentPane.setBackground(new Color(245, 245, 245));
+		setContentPane(contentPane);
 
+		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(iconoVentana.getImage());
+		
+		JPanel panelArriba = new JPanel(new FlowLayout(FlowLayout.LEFT,20,10));
+        panelArriba.setBackground(new Color(245, 245, 245));
+		panelArriba.setPreferredSize(new Dimension(180,60));
+		contentPane.add(panelArriba, BorderLayout.SOUTH);
+		
 		tablaVehiculos = new JTable();
 		tablaVehiculos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablaVehiculos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		tablaVehiculos.setRowHeight(25);
+		tablaVehiculos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
 
 		showVehiculos();
-		contentPane.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 82, 568, 204);
 		scrollPane.add(tablaVehiculos);
 		scrollPane.setViewportView(tablaVehiculos);
-		contentPane.add(scrollPane);
+		scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
 
 		reparar = new JButton("Reparar Vehículo");
 		reparar.setBounds(219, 10, 157, 47);
+		reparar.setBackground(new Color(33, 150, 243));
+		reparar.setForeground(Color.WHITE);
+		reparar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		reparar.setFocusPainted(false);
+		reparar.setBorderPainted(false);
+		reparar.setPreferredSize(new Dimension(1350,35));
 		reparar.addActionListener(new ActionListener() {
 
 			@Override
@@ -74,7 +101,10 @@ public class ReparacionView extends JFrame {
 		ImageIcon volverImage = new ImageIcon("file/back.jpg");
 		volver = new JButton(volverImage);
 		volver.setBounds(499, 10, 56, 53);
-
+        volver.setContentAreaFilled(false);
+		volver.setBorderPainted(false);
+		volver.setFocusPainted(false);
+		volver.setOpaque(false);
 		volver.addActionListener(new ActionListener() {
 
 			@Override
@@ -86,10 +116,9 @@ public class ReparacionView extends JFrame {
 			}
 		});
 
-		contentPane.add(reparar);
-		contentPane.add(volver);
+		panelArriba.add(reparar);
+		panelArriba.add(volver);
 
-		setContentPane(contentPane);
 		setVisible(true);
 		setLocationRelativeTo(null);
 	}

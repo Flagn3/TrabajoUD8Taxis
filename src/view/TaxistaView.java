@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,6 +22,18 @@ public class TaxistaView extends JFrame {
 	public TaxistaView(Usuario u) {
 		super("Taxista");
 		this.usuarioActivo = u;
+		
+		contentPane = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				ImageIcon fondo = new ImageIcon("file/fondo_login.jpg");
+				g.drawImage(fondo.getImage(), 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+		contentPane.setLayout(null);
+		setContentPane(contentPane);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 300, 300);
 		contentPane = new JPanel();
