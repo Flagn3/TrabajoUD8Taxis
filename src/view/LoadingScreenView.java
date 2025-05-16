@@ -34,6 +34,9 @@ public class LoadingScreenView extends JFrame {
 		setResizable(false);
         setTitle("Cargando...");
         
+        ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(iconoVentana.getImage());
+        
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setBackground(Color.white);
