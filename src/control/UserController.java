@@ -63,8 +63,8 @@ public class UserController {
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				products.add(new Usuario(resultado.getInt("id"), resultado.getString("nombre"),
-						resultado.getString("apellido"), resultado.getString("username"),
-						resultado.getString("password"), resultado.getString("rol"), resultado.getString("email")));
+						resultado.getString("apellido"), resultado.getString("password"),
+						resultado.getString("username"), resultado.getString("rol"), resultado.getString("email")));
 			}
 		} catch (SQLException ex) {
 			throw new SQLException(ex);
@@ -80,7 +80,7 @@ public class UserController {
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				usuario = new Usuario(id, resultado.getString("nombre"), resultado.getString("apellido"),
-						resultado.getString("username"), resultado.getString("password"), resultado.getString("rol"),
+						resultado.getString("password"), resultado.getString("username"), resultado.getString("rol"),
 						resultado.getString("email"));
 			}
 		} catch (SQLException e) {

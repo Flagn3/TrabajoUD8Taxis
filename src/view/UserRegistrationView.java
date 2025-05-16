@@ -59,8 +59,8 @@ public class UserRegistrationView extends JFrame {
 		iniciarComponentes();
 		textNombre.setText(u.getNombre());
 		textApellido.setText(u.getApellido());
-		textUsername.setText(u.getUsername());
 		textPassword.setText(u.getPassword());
+		textUsername.setText(u.getUsername());
 		textEmail.setText(u.getEmail());
 		if (u.getRol().equalsIgnoreCase("TAXISTA")) {
 			rdbtnTaxista.setSelected(true);

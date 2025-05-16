@@ -122,7 +122,7 @@ public class AdminView extends JFrame {
 			this.usuarios = this.controller.getAllUsers(Conexion.obtener());
 			table.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
-			}, new String[] { "Id", "Nombre", "Apellido", "Contraseña", "Username", "Rol", "Email" }));
+			}, new String[] { "Id", "Nombre", "Apellido", "Username", "Contraseña", "Rol", "Email" }));
 			DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 			dtm.setRowCount(0);
 			for (int i = 0; i < this.usuarios.size(); i++) {
