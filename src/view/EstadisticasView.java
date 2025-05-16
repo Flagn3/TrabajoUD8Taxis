@@ -1,12 +1,14 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -49,52 +51,42 @@ public class EstadisticasView extends JFrame {
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
+		contentPane.setLayout(new BorderLayout());
 
 		JTabbedPane tabbedPane = new JTabbedPane();
-		tabbedPane.setBounds(20, 20, 1888, 1020);
 
 		cbanyosViajes = new JComboBox();
-		cbanyosViajes.setBounds(30, 20, 100, 25);
 
 		cbanyosIngresos = new JComboBox();
-		cbanyosIngresos.setBounds(30, 20, 100, 25);
 
 		cbanyosReparaciones = new JComboBox();
-		cbanyosReparaciones.setBounds(30, 20, 100, 25);
 
-		ImageIcon imgVolver = new ImageIcon("file/back.jpg");
-		btvolver = new JButton(imgVolver);
-		btvolver.setBounds(1850, 50, 40, 40);
-		btvolver.setContentAreaFilled(false);
-		btvolver.setBorderPainted(false);
-		btvolver.setFocusPainted(false);
-		btvolver.setOpaque(false);
-		contentPane.add(btvolver);
+		btvolver = new JButton("Volver");
+		btvolver.setBackground(new Color(33, 150, 243));
+		btvolver.setForeground(Color.WHITE);
+		btvolver.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		contentPane.add(btvolver, BorderLayout.SOUTH);
 
 		// panel viajes
-		JPanel viajesPorMesPanel = new JPanel(null);
-		viajesPorMesPanel.add(cbanyosViajes);
+		JPanel viajesPorMesPanel = new JPanel(new BorderLayout());
+		viajesPorMesPanel.add(cbanyosViajes, BorderLayout.NORTH);
 
 		chartViajesPanel = new ChartPanel(null);
-		chartViajesPanel.setBounds(30, 60, 1800, 900);
-		viajesPorMesPanel.add(chartViajesPanel);
+		viajesPorMesPanel.add(chartViajesPanel, BorderLayout.CENTER);
 
 		// panel ingresos
-		JPanel ingresosPorMesPanel = new JPanel(null);
-		ingresosPorMesPanel.add(cbanyosIngresos);
+		JPanel ingresosPorMesPanel = new JPanel(new BorderLayout());
+		ingresosPorMesPanel.add(cbanyosIngresos, BorderLayout.NORTH);
 
 		chartIngresosPanel = new ChartPanel(null);
-		chartIngresosPanel.setBounds(30, 60, 1800, 900);
-		ingresosPorMesPanel.add(chartIngresosPanel);
+		ingresosPorMesPanel.add(chartIngresosPanel, BorderLayout.CENTER);
 
 		// panel reparaciones
-		JPanel reparacionesPorMesPanel = new JPanel(null);
-		reparacionesPorMesPanel.add(cbanyosReparaciones);
+		JPanel reparacionesPorMesPanel = new JPanel(new BorderLayout());
+		reparacionesPorMesPanel.add(cbanyosReparaciones, BorderLayout.NORTH);
 
 		chartReparacionesPanel = new ChartPanel(null);
-		chartReparacionesPanel.setBounds(30, 60, 1800, 900);
-		reparacionesPorMesPanel.add(chartReparacionesPanel);
+		reparacionesPorMesPanel.add(chartReparacionesPanel, BorderLayout.CENTER);
 
 		ManejadorEventos manejador = new ManejadorEventos();
 
@@ -106,12 +98,11 @@ public class EstadisticasView extends JFrame {
 		tabbedPane.addTab("Viajes por mes", viajesPorMesPanel);
 		tabbedPane.addTab("Ingresos por mes", ingresosPorMesPanel);
 		tabbedPane.addTab("Reparaciones por mes", reparacionesPorMesPanel);
-		// tabbedPane.addTab("Top 5 taxistas", new JPanel());
 
 		cargarAnyosViajes();
 		cargarAnyosReparaciones();
 
-		contentPane.add(tabbedPane);
+		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 		setVisible(true);
