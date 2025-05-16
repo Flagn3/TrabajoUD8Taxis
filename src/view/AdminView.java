@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -33,13 +35,15 @@ public class AdminView extends JFrame {
 	private JPanel contentPane;
 	private static JButton bteliminar, bteditar, btexit, btgrafica;
 	private JTable table;
-	private final UserController services = new UserController();
+	private final UserController controller = new UserController();
 	private List<Usuario> usuarios;
+	private static Usuario usuarioActivo;
 
 	/**
 	 * Create the frame.
 	 */
 	public AdminView(Usuario u) {
+		this.usuarioActivo = u;
 		setTitle("Panel de Administrador");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,7 +79,7 @@ public class AdminView extends JFrame {
 		bteditar.setBorderPainted(false);
 		bteditar.setPreferredSize(new Dimension(100, 35));
 		panelArriba.add(bteditar);
-		
+
 		btgrafica = new JButton("Grafica");
 		btgrafica.setBackground(new Color(0, 153, 76));
 		btgrafica.setForeground(Color.WHITE);
@@ -104,9 +108,13 @@ public class AdminView extends JFrame {
 		table.setRowHeight(25);
 		table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
 		scrollPane.setViewportView(table);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		ManejadorEventos m = new ManejadorEventos();
 		btexit.addActionListener(m);
+		bteliminar.addActionListener(m);
+		bteditar.addActionListener(m);
+		btgrafica.addActionListener(m);
 
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -114,7 +122,7 @@ public class AdminView extends JFrame {
 
 	private void showUsuarios() {
 		try {
-			this.usuarios = this.services.getAllUsers(Conexion.obtener());
+			this.usuarios = this.controller.getAllUsers(Conexion.obtener());
 			table.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
 			}, new String[] { "Id", "Nombre", "Apellido", "Contraseña", "Username", "Rol", "Email" }));
@@ -146,10 +154,45 @@ public class AdminView extends JFrame {
 			if (o == btexit) {
 				dispose();
 				new LoginView();
+			} else if (o == bteliminar) {
+				int filaSeleccionada = table.getSelectedRow();
+				if (filaSeleccionada >= 0) {
+					int decision = JOptionPane.showConfirmDialog(null,
+							"Estas seguro que deseas elimininar este usuario", "Eliminar usuario",
+							JOptionPane.YES_NO_OPTION);
+					if (decision == 0) {
+						try {
+							controller.remove(Conexion.obtener(), usuarios.get(filaSeleccionada));
+							showUsuarios();
+							JOptionPane.showMessageDialog(null, "Usuario eliminado con éxito");
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila", "Fila no seleccionada",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			} else if (o == bteditar) {
+				int filaSeleccionada = table.getSelectedRow();
+				if (filaSeleccionada >= 0) {
+					new UserRegistrationView(usuarios.get(filaSeleccionada), usuarioActivo);
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila", "Fila no seleccionada",
+							JOptionPane.ERROR_MESSAGE);
+
+				}
+
+			} else if (o == btgrafica) {
+				dispose();
+				new EstadisticasView(usuarioActivo);
 			}
 
 		}
-
 	}
-
 }
