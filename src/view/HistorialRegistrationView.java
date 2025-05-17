@@ -47,7 +47,7 @@ public class HistorialRegistrationView extends JFrame {
 		this.usuarioActivo = u;
 		this.vehiculoSeleccionado = v;
 
-		setTitle("Registro de Usuario");
+		setTitle("Registro de Reparaciones");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 450);
 		setLocationRelativeTo(null);
@@ -73,7 +73,7 @@ public class HistorialRegistrationView extends JFrame {
 		contentPane.add(lblFecha);
 
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(120,50,200,25);
+		dateChooser.setBounds(120, 50, 200, 25);
 		dateChooser.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		dateChooser.setDateFormatString("yyyy-MM-dd");
 		contentPane.add(dateChooser);
@@ -165,6 +165,7 @@ public class HistorialRegistrationView extends JFrame {
 
 						JOptionPane.showMessageDialog(null, "Coche reparado");
 						dispose();
+						new ReparacionView(usuarioActivo);
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

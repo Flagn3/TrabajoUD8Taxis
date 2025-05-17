@@ -39,11 +39,12 @@ public class ReparacionView extends JFrame {
 
 	public ReparacionView(Usuario u) {
 		this.usuarioActivo = u;
+		
 		setTitle("Panel de Reparacion de Vehículos");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
-		
+
 		contentPane = new JPanel(new BorderLayout(10, 10));
 		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
 		contentPane.setBackground(new Color(245, 245, 245));
@@ -51,12 +52,12 @@ public class ReparacionView extends JFrame {
 
 		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
 		setIconImage(iconoVentana.getImage());
-		
-		JPanel panelArriba = new JPanel(new FlowLayout(FlowLayout.LEFT,20,10));
-        panelArriba.setBackground(new Color(245, 245, 245));
-		panelArriba.setPreferredSize(new Dimension(180,60));
+
+		JPanel panelArriba = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
+		panelArriba.setBackground(new Color(245, 245, 245));
+		panelArriba.setPreferredSize(new Dimension(180, 60));
 		contentPane.add(panelArriba, BorderLayout.SOUTH);
-		
+
 		tablaVehiculos = new JTable();
 		tablaVehiculos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tablaVehiculos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
@@ -71,7 +72,6 @@ public class ReparacionView extends JFrame {
 		scrollPane.setViewportView(tablaVehiculos);
 		scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		contentPane.add(scrollPane, BorderLayout.CENTER);
-		
 
 		reparar = new JButton("Reparar Vehículo");
 		reparar.setBounds(219, 10, 157, 47);
@@ -80,7 +80,7 @@ public class ReparacionView extends JFrame {
 		reparar.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		reparar.setFocusPainted(false);
 		reparar.setBorderPainted(false);
-		reparar.setPreferredSize(new Dimension(1350,35));
+		reparar.setPreferredSize(new Dimension(1350, 35));
 		reparar.addActionListener(new ActionListener() {
 
 			@Override
@@ -88,6 +88,7 @@ public class ReparacionView extends JFrame {
 
 				int filaseleccionada = tablaVehiculos.getSelectedRow();
 				if (filaseleccionada >= 0) {
+					dispose();
 					new HistorialRegistrationView(usuarioActivo, vehiculos.get(filaseleccionada));
 					showVehiculos();
 				} else {
@@ -97,10 +98,11 @@ public class ReparacionView extends JFrame {
 
 		});
 
+		showVehiculos();
 		ImageIcon volverImage = new ImageIcon("file/back.jpg");
 		volver = new JButton(volverImage);
 		volver.setBounds(499, 10, 56, 53);
-        volver.setContentAreaFilled(false);
+		volver.setContentAreaFilled(false);
 		volver.setBorderPainted(false);
 		volver.setFocusPainted(false);
 		volver.setOpaque(false);

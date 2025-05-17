@@ -1,10 +1,16 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,31 +41,61 @@ public class GestionarViajesView extends JFrame {
 	 * Create the frame.
 	 */
 	public GestionarViajesView(Usuario u) {
-		setTitle("Gestión de viajes");
 		this.userActivo = u;
+		
+		setTitle("Panel de Gestion de Vehiculos");
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 663, 344);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setResizable(false);
+		
+		contentPane = new JPanel(new BorderLayout(10, 10));
+		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
+		contentPane.setBackground(new Color(245, 245, 245));
 		setContentPane(contentPane);
+		
+		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(iconoVentana.getImage());
+		
+		JPanel panelArriba = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
+		panelArriba.setBackground(new Color(245, 245, 245));
+		panelArriba.setPreferredSize(new Dimension(180, 60));
+		contentPane.add(panelArriba, BorderLayout.EAST);
 
 		btadd = new JButton("Añadir");
-		btadd.setBounds(128, 10, 87, 31);
+		btadd.setBackground(new Color(33, 150, 243));
+		btadd.setForeground(Color.WHITE);
+		btadd.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btadd.setFocusPainted(false);
+		btadd.setBorderPainted(false);
+		btadd.setPreferredSize(new Dimension(150, 35));
+		panelArriba.add(btadd);
+		
 		btupdate = new JButton("Editar");
-		btupdate.setBounds(254, 10, 87, 31);
+		btupdate.setBackground(new Color(33, 150, 243));
+		btupdate.setForeground(Color.WHITE);
+		btupdate.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btupdate.setFocusPainted(false);
+		btupdate.setBorderPainted(false);
+		btupdate.setPreferredSize(new Dimension(150, 35));
+		panelArriba.add(btupdate);
+		
 		btborrar = new JButton("Eliminar");
-		btborrar.setBounds(377, 10, 94, 31);
-		contentPane.setLayout(null);
+		btborrar.setBackground(new Color(33, 150, 243));
+		btborrar.setForeground(Color.WHITE);
+		btborrar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btborrar.setFocusPainted(false);
+		btborrar.setBorderPainted(false);
+		btborrar.setPreferredSize(new Dimension(150, 35));
+		panelArriba.add(btborrar);
 
-		ImageIcon img = new ImageIcon("file/salir.png");
+		ImageIcon img = new ImageIcon("file/back.jpg");
 		volver = new JButton(img);
-		volver.setBounds(513, 10, 45, 31);
-
-		contentPane.add(btadd);
-		contentPane.add(btupdate);
-		contentPane.add(btborrar);
-		contentPane.add(volver);
-
+		volver.setBounds(530, 78, 40, 40);
+		volver.setContentAreaFilled(false);
+		volver.setBorderPainted(false);
+		volver.setFocusPainted(false);
+		volver.setOpaque(false);
+		panelArriba.add(volver);
 		volver.addActionListener(new ActionListener() {
 
 			@Override
@@ -78,8 +114,9 @@ public class GestionarViajesView extends JFrame {
 		showViajes(model);
 
 		JScrollPane scrollpane = new JScrollPane(tabla);
-		scrollpane.setBounds(10, 58, 618, 222);
-		contentPane.add(scrollpane);
+		scrollpane.setBounds(25, 86, 518, 167);
+		scrollpane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		contentPane.add(scrollpane,BorderLayout.CENTER);
 
 		btadd.addActionListener(new ActionListener() {
 
@@ -154,6 +191,9 @@ public class GestionarViajesView extends JFrame {
 			}
 			tabla = new JTable(model);
 			tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			tabla.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+			tabla.setRowHeight(25);
+			tabla.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
 
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
