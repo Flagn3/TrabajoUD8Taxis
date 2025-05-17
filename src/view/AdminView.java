@@ -44,6 +44,7 @@ public class AdminView extends JFrame {
 	 */
 	public AdminView(Usuario u) {
 		this.usuarioActivo = u;
+		
 		setTitle("Panel de Administrador");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,33 +61,33 @@ public class AdminView extends JFrame {
 		JPanel panelArriba = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
 		panelArriba.setBackground(new Color(245, 245, 245));
 		panelArriba.setPreferredSize(new Dimension(130, 60));
-		contentPane.add(panelArriba, BorderLayout.EAST);
+		contentPane.add(panelArriba, BorderLayout.SOUTH);
 
 		bteliminar = new JButton("Eliminar");
-		bteliminar.setBackground(new Color(220, 53, 69));
+		bteliminar.setBackground(new Color(33, 150, 243));
 		bteliminar.setForeground(Color.WHITE);
 		bteliminar.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		bteliminar.setFocusPainted(false);
 		bteliminar.setBorderPainted(false);
-		bteliminar.setPreferredSize(new Dimension(100, 35));
+		bteliminar.setPreferredSize(new Dimension(425, 35));
 		panelArriba.add(bteliminar);
 
 		bteditar = new JButton("Editar");
-		bteditar.setBackground(new Color(255, 193, 7));
+		bteditar.setBackground(new Color(33, 150, 243));
 		bteditar.setForeground(Color.WHITE);
 		bteditar.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		bteditar.setFocusPainted(false);
 		bteditar.setBorderPainted(false);
-		bteditar.setPreferredSize(new Dimension(100, 35));
+		bteditar.setPreferredSize(new Dimension(425, 35));
 		panelArriba.add(bteditar);
 
 		btgrafica = new JButton("Grafica");
-		btgrafica.setBackground(new Color(0, 153, 76));
+		btgrafica.setBackground(new Color(33, 150, 243));
 		btgrafica.setForeground(Color.WHITE);
 		btgrafica.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		btgrafica.setFocusPainted(false);
 		btgrafica.setBorderPainted(false);
-		btgrafica.setPreferredSize(new Dimension(100, 35));
+		btgrafica.setPreferredSize(new Dimension(425, 35));
 		panelArriba.add(btgrafica);
 
 		ImageIcon img = new ImageIcon("file/salir.png");

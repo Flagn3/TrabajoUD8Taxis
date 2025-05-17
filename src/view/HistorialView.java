@@ -55,6 +55,7 @@ public class HistorialView extends JFrame {
 	 */
 	public HistorialView(Usuario u) {
 		this.usuarioActivo = u;
+		
 		setTitle("Panel de Historial de Reparaciones");
 		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

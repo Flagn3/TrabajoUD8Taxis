@@ -39,6 +39,7 @@ public class ReparacionView extends JFrame {
 
 	public ReparacionView(Usuario u) {
 		this.usuarioActivo = u;
+		
 		setTitle("Panel de Reparacion de Vehículos");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
