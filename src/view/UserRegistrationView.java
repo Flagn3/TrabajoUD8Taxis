@@ -212,36 +212,41 @@ public class UserRegistrationView extends JFrame {
 			if (o == btnConfirmar) {
 				if (!textUsername.getText().isEmpty() && !textPassword.getText().isEmpty()
 						&& !textNombre.getText().isEmpty() && !textApellido.getText().isEmpty()
-						&& !textEmail.getText().isEmpty()) {
-					if (rdbtnMecanico.isSelected() || rdbtnTaxista.isSelected()) {
-						try {
+						&& !textEmail.getText().isEmpty() ) {
+					if(textEmail.getText().matches("[a-zA-Z]+@(mecanico|taxista)\\.com")) {
+						if (rdbtnMecanico.isSelected() || rdbtnTaxista.isSelected()) {
+							try {
 
-							nuevoUsuario.setNombre(textNombre.getText());
-							nuevoUsuario.setApellido(textApellido.getText());
-							nuevoUsuario.setPassword(textPassword.getText());
-							nuevoUsuario.setUsername(textUsername.getText());
-							nuevoUsuario.setEmail(textEmail.getText());
-							nuevoUsuario.setRol(rdbtnMecanico.isSelected() ? "mecanico" : "taxista");
-							controller.save(Conexion.obtener(), nuevoUsuario);
-							if (nuevoUsuario.getId() == null) {
-								dispose();
-								new LoginView();
-								JOptionPane.showMessageDialog(null, "Usuario añadido con exito");
-							} else {
-								dispose();
-								new AdminView(usuarioActivo);
-								JOptionPane.showMessageDialog(null, "Usuario editado con exito");
+								nuevoUsuario.setNombre(textNombre.getText());
+								nuevoUsuario.setApellido(textApellido.getText());
+								nuevoUsuario.setPassword(textPassword.getText());
+								nuevoUsuario.setUsername(textUsername.getText());
+								nuevoUsuario.setEmail(textEmail.getText());
+								nuevoUsuario.setRol(rdbtnMecanico.isSelected() ? "mecanico" : "taxista");
+								controller.save(Conexion.obtener(), nuevoUsuario);
+								if (nuevoUsuario.getId() == null) {
+									dispose();
+									new LoginView();
+									JOptionPane.showMessageDialog(null, "Usuario añadido con exito");
+								} else {
+									dispose();
+									new AdminView(usuarioActivo);
+									JOptionPane.showMessageDialog(null, "Usuario editado con exito");
+								}
+							} catch (ClassNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
 							}
-						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+						} else {
+							JOptionPane.showMessageDialog(null, "No esta seleccionado el campo ROL");
 						}
-					} else {
-						JOptionPane.showMessageDialog(null, "No esta seleccionado el campo ROL");
+					}else {
+						JOptionPane.showMessageDialog(null, "Email incorrecto, nombre@mecanico.com o nombre@taxista.com", "Error", JOptionPane.ERROR_MESSAGE);
 					}
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
 				}

@@ -124,8 +124,8 @@ public class EditVehiculoView extends JFrame {
 						&& !txtMarca.getText().isEmpty()) {
 
 					if (txtMatricula.getText().matches("[0-9]{4}[-][^aeiouAEIOUa-z]{3}")) {
-						Vehiculo v = new Vehiculo(usuarioActivo.getId(), txtMatricula.getText(), txtModelo.getText(),
-								txtMarca.getText(), 100, false);
+						Vehiculo v = new Vehiculo(vehiculoSeleccionado.getId(),usuarioActivo.getId(), txtMatricula.getText(), txtModelo.getText(),
+								txtMarca.getText(), vehiculoSeleccionado.getEstado(), vehiculoSeleccionado.isEnReparacion());
 
 						try {
 							controller.save(Conexion.obtener(), v);
