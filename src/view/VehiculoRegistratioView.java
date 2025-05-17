@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,34 +33,67 @@ public class VehiculoRegistratioView extends JFrame {
 	private static final VehiculoController services = new VehiculoController();
 
 	public VehiculoRegistratioView(Usuario u) {
-		super("Registro de vehículo");
 		this.usuarioActivo = u;
+		
+		setTitle("Registro de Vehiculos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 285, 300);
+		setBounds(100, 100, 400, 450);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		
+		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(iconoVentana.getImage());
+		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
+		contentPane.setBackground(new Color(245, 245, 245));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel title = new JLabel("Registro de vehiculos");
+		title.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		title.setBounds(100, 10, 250, 30);
+		contentPane.add(title);
 
 		lblMatricula = new JLabel("Matrícula");
-		lblMatricula.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblMatricula.setBounds(26, 8, 96, 25);
+		lblMatricula.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblMatricula.setBounds(30, 50, 80, 20);
+		
 		lblModelo = new JLabel("Modelo");
-		lblModelo.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblModelo.setBounds(26, 78, 63, 30);
+		lblModelo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblModelo.setBounds(30, 90, 80, 20);
+		
 		lblMarca = new JLabel("Marca");
-		lblMarca.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblMarca.setBounds(26, 46, 63, 19);
+		lblMarca.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblMarca.setBounds(30, 130, 80, 20);
 
 		txtMatricula = new JTextField();
-		txtMatricula.setBounds(132, 11, 82, 19);
+		txtMatricula.setBounds(120, 50, 200, 25);
+		txtMatricula.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		
 		txtModelo = new JTextField();
-		txtModelo.setBounds(132, 87, 82, 19);
+		txtModelo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		txtModelo.setBounds(120, 90, 200, 25);
+		
 		txtMarca = new JTextField();
-		txtMarca.setBounds(132, 49, 82, 19);
+		txtMarca.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		txtMarca.setBounds(120, 130, 200, 25);
 
 		addVehiculo = new JButton("Añadir");
-		addVehiculo.setBounds(26, 153, 96, 30);
+		addVehiculo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		addVehiculo.setForeground(Color.WHITE);
+		addVehiculo.setBackground(new Color(40, 167, 69));
+		addVehiculo.setFocusPainted(false);
+		addVehiculo.setBorderPainted(false);
+		addVehiculo.setBounds(60, 320, 120, 35);
+		
 		cancelar = new JButton("Cancelar");
-		cancelar.setBounds(132, 153, 82, 30);
+		cancelar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		cancelar.setForeground(Color.WHITE);
+		cancelar.setBackground(new Color(220, 53, 69));
+		cancelar.setFocusPainted(false);
+		cancelar.setBorderPainted(false);
+		cancelar.setBounds(200, 320, 120, 35);
 
 		ManejadorEventos m = new ManejadorEventos();
 		addVehiculo.addActionListener(m);
@@ -67,8 +102,6 @@ public class VehiculoRegistratioView extends JFrame {
 		txtMatricula.addKeyListener(m);
 		txtMarca.addKeyListener(m);
 		txtModelo.addKeyListener(m);
-
-		contentPane.setLayout(null);
 
 		contentPane.add(lblMatricula);
 		contentPane.add(lblMarca);
@@ -79,7 +112,6 @@ public class VehiculoRegistratioView extends JFrame {
 		contentPane.add(addVehiculo);
 		contentPane.add(cancelar);
 
-		setContentPane(contentPane);
 		setVisible(true);
 		setLocationRelativeTo(null);
 	}

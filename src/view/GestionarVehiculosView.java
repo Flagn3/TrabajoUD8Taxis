@@ -1,10 +1,16 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,36 +39,71 @@ public class GestionarVehiculosView extends JFrame {
 	private Usuario usuarioActivo;
 
 	public GestionarVehiculosView(Usuario u) {
-		super("Gestionar Vehiculos");
 		this.usuarioActivo = u;
+		
+		setTitle("Panel de Gestion de Vehiculos");
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 567, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setResizable(false);
+
+		contentPane = new JPanel(new BorderLayout(10, 10));
+		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
+		contentPane.setBackground(new Color(245, 245, 245));
+		setContentPane(contentPane);
+
+		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(iconoVentana.getImage());
+
+		JPanel panelArriba = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
+		panelArriba.setBackground(new Color(245, 245, 245));
+		panelArriba.setPreferredSize(new Dimension(180, 60));
+		contentPane.add(panelArriba, BorderLayout.EAST);
 
 		editarVehiculo = new JButton("Editar");
-		editarVehiculo.setBounds(112, 24, 77, 31);
+		editarVehiculo.setBackground(new Color(33, 150, 243));
+		editarVehiculo.setForeground(Color.WHITE);
+		editarVehiculo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		editarVehiculo.setFocusPainted(false);
+		editarVehiculo.setBorderPainted(false);
+		editarVehiculo.setPreferredSize(new Dimension(150, 35));
+		panelArriba.add(editarVehiculo);
+
 		eliminarVehiculo = new JButton("Eliminar");
-		eliminarVehiculo.setBounds(199, 24, 93, 31);
+		eliminarVehiculo.setBackground(new Color(33, 150, 243));
+		eliminarVehiculo.setForeground(Color.WHITE);
+		eliminarVehiculo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		eliminarVehiculo.setFocusPainted(false);
+		eliminarVehiculo.setBorderPainted(false);
+		eliminarVehiculo.setPreferredSize(new Dimension(150, 35));
+		panelArriba.add(eliminarVehiculo);
+
 		addVehiculo = new JButton("Añadir");
-		addVehiculo.setBounds(25, 24, 77, 31);
+		addVehiculo.setBackground(new Color(33, 150, 243));
+		addVehiculo.setForeground(Color.WHITE);
+		addVehiculo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		addVehiculo.setFocusPainted(false);
+		addVehiculo.setBorderPainted(false);
+		addVehiculo.setPreferredSize(new Dimension(150, 35));
+		panelArriba.add(addVehiculo);
 
 		repararVehiculo = new JButton("Reparar vehículo");
-		repararVehiculo.setBounds(302, 24, 154, 31);
-		contentPane.add(repararVehiculo);
+		repararVehiculo.setBackground(new Color(33, 150, 243));
+		repararVehiculo.setForeground(Color.WHITE);
+		repararVehiculo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		repararVehiculo.setFocusPainted(false);
+		repararVehiculo.setBorderPainted(false);
+		repararVehiculo.setPreferredSize(new Dimension(150, 35));
+		panelArriba.add(repararVehiculo);
 
-		ImageIcon img = new ImageIcon("file/salir.png");
+		
+		ImageIcon img = new ImageIcon("file/back.jpg");
 		inicio = new JButton(img);
-		inicio.setBounds(473, 11, 57, 44);
-		contentPane.add(inicio);
-
-		contentPane.setLayout(null);
-
-		contentPane.add(addVehiculo);
-		contentPane.add(editarVehiculo);
-		contentPane.add(eliminarVehiculo);
-
-		setContentPane(contentPane);
+		inicio.setBounds(530, 78, 40, 40);
+		inicio.setContentAreaFilled(false);
+		inicio.setBorderPainted(false);
+		inicio.setFocusPainted(false);
+		inicio.setOpaque(false);
+		panelArriba.add(inicio);
 
 		ManejadorEventos m = new ManejadorEventos();
 		addVehiculo.addActionListener(m);
@@ -72,12 +114,19 @@ public class GestionarVehiculosView extends JFrame {
 
 		tablaVehiculos = new JTable();
 		tablaVehiculos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablaVehiculos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		tablaVehiculos.setRowHeight(25);
+		tablaVehiculos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+
 		showVehiculos();
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(25, 86, 518, 167);
 		scrollPane.add(tablaVehiculos);
 		scrollPane.setViewportView(tablaVehiculos);
-		contentPane.add(scrollPane);
+		scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		contentPane.add(scrollPane, BorderLayout.CENTER);
+
 		setVisible(true);
 		setLocationRelativeTo(null);
 	}

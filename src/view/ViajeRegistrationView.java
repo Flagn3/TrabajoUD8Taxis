@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -71,48 +74,75 @@ public class ViajeRegistrationView extends JFrame {
 	}
 
 	private void iniciarComponentes() {
+		setTitle("Registro de Viajes");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Registrar viaje");
-		setBounds(100, 100, 330, 320);
+		setBounds(100, 100, 400, 450);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		
+		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
+		setIconImage(iconoVentana.getImage());
+		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
+		contentPane.setBackground(new Color(245, 245, 245));
+		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JLabel title = new JLabel("    Ficha de Viajes");
+		title.setFont(new Font("Segoe UI", Font.BOLD, 20));
+		title.setBounds(100, 10, 250, 30);
+		contentPane.add(title);
 
 		lblfecha = new JLabel("Fecha");
-		lblfecha.setBounds(10, 14, 110, 14);
+		lblfecha.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblfecha.setBounds(30, 50, 80, 20);
 		contentPane.add(lblfecha);
 
 		dateChooser = new JDateChooser();
+		dateChooser.setBounds(120, 50, 200, 25);
+		dateChooser.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		dateChooser.setDateFormatString("yyyy-MM-dd");
-		dateChooser.setBounds(118, 11, 125, 20);
 		contentPane.add(dateChooser);
 
-		lblhora = new JLabel("Hora (HH:mm)");
-		lblhora.setBounds(10, 53, 98, 14);
+		lblhora = new JLabel("Hora");
+		lblhora.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblhora.setBounds(30, 90, 80, 20);
 		contentPane.add(lblhora);
+		
 		txthora = new JTextField(10);
-		txthora.setBounds(118, 50, 125, 20);
+		txthora.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		txthora.setBounds(120, 90, 200, 25);
 		contentPane.add(txthora);
 
 		lbldestino = new JLabel("Destino");
-		lbldestino.setBounds(10, 88, 79, 14);
+		lbldestino.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lbldestino.setBounds(30, 130, 80, 20);
 		contentPane.add(lbldestino);
+		
 		txtdestino = new JTextField(10);
-		txtdestino.setBounds(118, 85, 125, 20);
+		txtdestino.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		txtdestino.setBounds(120, 130, 200, 25);
 		contentPane.add(txtdestino);
 
 		lblkm = new JLabel("Kilómetros");
-		lblkm.setBounds(10, 128, 79, 14);
+		lblkm.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblkm.setBounds(30, 170, 80, 20);
 		contentPane.add(lblkm);
+		
 		txtkm = new JTextField(10);
-		txtkm.setBounds(118, 125, 125, 20);
+		txtkm.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		txtkm.setBounds(120, 170, 200, 25);
 		contentPane.add(txtkm);
 
 		lblprecio = new JLabel("Precio");
-		lblprecio.setBounds(10, 166, 79, 14);
+		lblprecio.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblprecio.setBounds(30, 210, 80, 20);
 		contentPane.add(lblprecio);
+		
 		txtprecio = new JTextField(10);
-		txtprecio.setBounds(118, 163, 125, 20);
+		txtprecio.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		txtprecio.setBounds(120, 210, 200, 25);
 		contentPane.add(txtprecio);
 
 		
@@ -123,16 +153,22 @@ public class ViajeRegistrationView extends JFrame {
 		txtprecio.addKeyListener(m);
 		
 		lblvehiculo = new JLabel("Vehículo");
-		lblvehiculo.setBounds(10, 204, 79, 14);
+		lblvehiculo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblvehiculo.setBounds(30, 250, 80, 20);
 		contentPane.add(lblvehiculo);
 
 		cbvehiculos = new JComboBox(cargarVehiculos());
-		cbvehiculos.setBounds(118, 201, 186, 20);
+		cbvehiculos.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		cbvehiculos.setBounds(120, 250, 200, 25);
 		contentPane.add(cbvehiculos);
 
 		btconfirmar = new JButton("Confirmar");
-		btconfirmar.setBounds(21, 247, 99, 23);
-
+		btconfirmar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btconfirmar.setForeground(Color.WHITE);
+		btconfirmar.setBackground(new Color(40, 167, 69));
+		btconfirmar.setFocusPainted(false);
+		btconfirmar.setBorderPainted(false);
+		btconfirmar.setBounds(60, 320, 120, 35);
 		btconfirmar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -154,7 +190,12 @@ public class ViajeRegistrationView extends JFrame {
 		contentPane.add(btconfirmar);
 
 		btcancelar = new JButton("Cancelar");
-		btcancelar.setBounds(157, 247, 110, 23);
+		btcancelar.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		btcancelar.setForeground(Color.WHITE);
+		btcancelar.setBackground(new Color(220, 53, 69));
+		btcancelar.setFocusPainted(false);
+		btcancelar.setBorderPainted(false);
+		btcancelar.setBounds(200, 320, 120, 35);
 		btcancelar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -164,7 +205,6 @@ public class ViajeRegistrationView extends JFrame {
 		});
 		contentPane.add(btcancelar);
 
-		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

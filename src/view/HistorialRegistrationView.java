@@ -47,7 +47,7 @@ public class HistorialRegistrationView extends JFrame {
 		this.usuarioActivo = u;
 		this.vehiculoSeleccionado = v;
 
-		setTitle("Registro de Usuario");
+		setTitle("Registro de Reparaciones");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 450);
 		setLocationRelativeTo(null);
