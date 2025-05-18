@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -79,16 +80,16 @@ public class ViajeRegistrationView extends JFrame {
 		setBounds(100, 100, 400, 450);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		
+
 		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
 		setIconImage(iconoVentana.getImage());
-		
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
 		contentPane.setBackground(new Color(245, 245, 245));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel title = new JLabel("    Ficha de Viajes");
 		title.setFont(new Font("Segoe UI", Font.BOLD, 20));
 		title.setBounds(100, 10, 250, 30);
@@ -109,7 +110,7 @@ public class ViajeRegistrationView extends JFrame {
 		lblhora.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblhora.setBounds(30, 90, 80, 20);
 		contentPane.add(lblhora);
-		
+
 		txthora = new JTextField(10);
 		txthora.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		txthora.setBounds(120, 90, 200, 25);
@@ -119,7 +120,7 @@ public class ViajeRegistrationView extends JFrame {
 		lbldestino.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lbldestino.setBounds(30, 130, 80, 20);
 		contentPane.add(lbldestino);
-		
+
 		txtdestino = new JTextField(10);
 		txtdestino.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		txtdestino.setBounds(120, 130, 200, 25);
@@ -129,7 +130,7 @@ public class ViajeRegistrationView extends JFrame {
 		lblkm.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblkm.setBounds(30, 170, 80, 20);
 		contentPane.add(lblkm);
-		
+
 		txtkm = new JTextField(10);
 		txtkm.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		txtkm.setBounds(120, 170, 200, 25);
@@ -139,19 +140,18 @@ public class ViajeRegistrationView extends JFrame {
 		lblprecio.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblprecio.setBounds(30, 210, 80, 20);
 		contentPane.add(lblprecio);
-		
+
 		txtprecio = new JTextField(10);
 		txtprecio.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		txtprecio.setBounds(120, 210, 200, 25);
 		contentPane.add(txtprecio);
 
-		
 		ManejadorEventos m = new ManejadorEventos();
 		txthora.addKeyListener(m);
 		txtdestino.addKeyListener(m);
 		txtkm.addKeyListener(m);
 		txtprecio.addKeyListener(m);
-		
+
 		lblvehiculo = new JLabel("Vehículo");
 		lblvehiculo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblvehiculo.setBounds(30, 250, 80, 20);
@@ -172,19 +172,21 @@ public class ViajeRegistrationView extends JFrame {
 		btconfirmar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				registrarViaje();
-				dispose();
-				JOptionPane.showMessageDialog(null, "Viaje registrado con éxito", "Viaje registrado",
-						JOptionPane.INFORMATION_MESSAGE);
-				Vehiculo vehiSeleccionado = vehiculos.get(cbvehiculos.getSelectedIndex());
-				vehiSeleccionado.setEstado(vehiSeleccionado.getEstado() - 5);
-				try {
-					vehiCont.save(Conexion.obtener(), vehiSeleccionado);
-				} catch (ClassNotFoundException | SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if (registrarViaje()) {
+					dispose();
+					JOptionPane.showMessageDialog(null, "Viaje registrado con éxito", "Viaje registrado",
+							JOptionPane.INFORMATION_MESSAGE);
+					Vehiculo vehiSeleccionado = vehiculos.get(cbvehiculos.getSelectedIndex());
+					vehiSeleccionado.setEstado(vehiSeleccionado.getEstado() - 5);
+					try {
+						vehiCont.save(Conexion.obtener(), vehiSeleccionado);
+					} catch (ClassNotFoundException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					new GestionarViajesView(userActivo);
 				}
-				new GestionarViajesView(userActivo);
+
 			}
 		});
 		contentPane.add(btconfirmar);
@@ -211,7 +213,7 @@ public class ViajeRegistrationView extends JFrame {
 
 	private static String[] cargarVehiculos() {
 		try {
-			vehiculos = vehiCont.getAllVehiculos(Conexion.obtener(), userActivo);
+			vehiculos = vehiCont.getAllVehiculosUsuario(Conexion.obtener(), userActivo);
 		} catch (ClassNotFoundException | SQLException e) {
 			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido recuperar los vehículos");
 		}
@@ -223,42 +225,55 @@ public class ViajeRegistrationView extends JFrame {
 		return datosVehiculos.toArray(new String[0]);
 	}
 
-	private void registrarViaje() {
+	private boolean registrarViaje() {
 		try {
-			Date selectedDate = dateChooser.getDate();
-			if (selectedDate != null) {
-				LocalDate localDate = selectedDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-				viaje.setFecha(localDate);
+			if (dateChooser.getDate() != null && !txthora.getText().isEmpty() && !txtdestino.getText().isEmpty()
+					&& !txtkm.getText().isEmpty() && !txtprecio.getText().isEmpty()) {
+				Date selectedDate = dateChooser.getDate();
+				if (selectedDate != null) {
+					LocalDate localDate = selectedDate.toInstant().atZone(java.time.ZoneId.systemDefault())
+							.toLocalDate();
+					viaje.setFecha(localDate);
+				}
+
+				viaje.setHora(LocalTime.parse(txthora.getText()));
+				viaje.setDestino(txtdestino.getText());
+				viaje.setKm(Float.parseFloat(txtkm.getText()));
+				viaje.setPrecio(Float.parseFloat(txtprecio.getText()));
+				viaje.setIdUsuario(userActivo.getId());
+				viaje.setIdVehiculo(vehiculos.get(cbvehiculos.getSelectedIndex()).getId());
+
+				viajeCont.save(Conexion.obtener(), viaje);
+				return true;
+			} else {
+
+				JOptionPane.showMessageDialog(null, "Faltan campos por rellenar", "Campos incompletos",
+						JOptionPane.ERROR_MESSAGE);
 			}
-
-			viaje.setHora(LocalTime.parse(txthora.getText()));
-			viaje.setDestino(txtdestino.getText());
-			viaje.setKm(Float.parseFloat(txtkm.getText()));
-			viaje.setPrecio(Float.parseFloat(txtprecio.getText()));
-			viaje.setIdUsuario(userActivo.getId());
-			viaje.setIdVehiculo(vehiculos.get(cbvehiculos.getSelectedIndex()).getId());
-
-			viajeCont.save(Conexion.obtener(), viaje);
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al registrar el viaje");
+		} catch (DateTimeParseException ex) {
+			JOptionPane.showInternalMessageDialog(null, "Introduce un formato de hora válido HH:MM", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
+		return false;
 	}
-	
-	private class ManejadorEventos implements KeyListener{
+
+	private class ManejadorEventos implements KeyListener {
 
 		@Override
 		public void keyTyped(KeyEvent e) {
 
-			if(txthora.getText().length() >= 10) {
+			if (txthora.getText().length() >= 10) {
 				e.consume();
 			}
-			if(txtdestino.getText().length() >= 30) {
+			if (txtdestino.getText().length() >= 30) {
 				e.consume();
 			}
-			if(txtkm.getText().length() >= 12) {
+			if (txtkm.getText().length() >= 12) {
 				e.consume();
 			}
-			if(txtprecio.getText().length() >= 12) {
+			if (txtprecio.getText().length() >= 12) {
 				e.consume();
 			}
 		}
@@ -266,14 +281,14 @@ public class ViajeRegistrationView extends JFrame {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 	}
 }

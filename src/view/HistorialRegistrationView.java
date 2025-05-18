@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -144,40 +145,44 @@ public class HistorialRegistrationView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (dateChooser.getDate() != null && !txthora.getText().isEmpty() && !txtPrecio.getText().isEmpty()
-						&& !areaDescripcion.getText().isEmpty()) {
+				try {
+					if (dateChooser.getDate() != null && !txthora.getText().isEmpty() && !txtPrecio.getText().isEmpty()
+							&& !areaDescripcion.getText().isEmpty()) {
 
-					LocalDate fecha = dateChooser.getDate().toInstant().atZone(java.time.ZoneId.systemDefault())
-							.toLocalDate();
-					LocalTime hora = LocalTime.parse(txthora.getText());
-					float coste = Float.parseFloat(txtPrecio.getText());
-					String descripcion = areaDescripcion.getText();
+						LocalDate fecha = dateChooser.getDate().toInstant().atZone(java.time.ZoneId.systemDefault())
+								.toLocalDate();
+						LocalTime hora = LocalTime.parse(txthora.getText());
+						float coste = Float.parseFloat(txtPrecio.getText());
+						String descripcion = areaDescripcion.getText();
 
-					Reparacion repa = new Reparacion(fecha, hora, descripcion, coste, usuarioActivo.getId(),
-							vehiculoSeleccionado.getId());
-					try {
-						reparacionController.save(Conexion.obtener(), repa);
+						Reparacion repa = new Reparacion(fecha, hora, descripcion, coste, usuarioActivo.getId(),
+								vehiculoSeleccionado.getId());
+						try {
+							reparacionController.save(Conexion.obtener(), repa);
 
-						vehiculoSeleccionado.setEnReparacion(false);
-						vehiculoSeleccionado.setEstado(100);
+							vehiculoSeleccionado.setEnReparacion(false);
+							vehiculoSeleccionado.setEstado(100);
 
-						vehiculoController.save(Conexion.obtener(), vehiculoSeleccionado);
+							vehiculoController.save(Conexion.obtener(), vehiculoSeleccionado);
 
-						JOptionPane.showMessageDialog(null, "Coche reparado");
-						dispose();
-						new ReparacionView(usuarioActivo);
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Coche reparado");
+							dispose();
+							new ReparacionView(usuarioActivo);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Faltan campos por rellenar", "Campos incompletos",
+								JOptionPane.ERROR_MESSAGE);
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Faltan campos por rellenar", "Campos incompletos",
+				} catch (DateTimeParseException ex) {
+					JOptionPane.showInternalMessageDialog(null, "Introduce un formato de hora válido HH:MM", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 

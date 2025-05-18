@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
@@ -122,10 +123,10 @@ public class EstadisticasView extends JFrame {
 				actualizarGraficoIngresosPorMes(anyoSeleccionado);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		}
 	}
 
@@ -141,10 +142,11 @@ public class EstadisticasView extends JFrame {
 				actualizarGraficoReparacionesPorMes(anyoSeleccionado);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
+			;
 		}
 	}
 
@@ -161,7 +163,7 @@ public class EstadisticasView extends JFrame {
 			configurarGrafico(chart);
 			chartReparacionesPanel.setChart(chart);
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		}
 	}
 
@@ -178,7 +180,7 @@ public class EstadisticasView extends JFrame {
 			configurarGrafico(chart);
 			chartIngresosPanel.setChart(chart);
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		}
 	}
 
@@ -200,10 +202,10 @@ public class EstadisticasView extends JFrame {
 
 			chartViajesPanel.setChart(chart);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		}
 	}
 

@@ -1,31 +1,28 @@
 package view;
 
-import java.awt.EventQueue;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.sql.SQLException;
+import java.util.List;
 
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import control.Conexion;
 import control.UserController;
 import model.Usuario;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.sql.SQLException;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
 
 public class UserRegistrationView extends JFrame {
 
@@ -41,6 +38,7 @@ public class UserRegistrationView extends JFrame {
 	private final UserController controller = new UserController();
 	private static Usuario nuevoUsuario;
 	private static Usuario usuarioActivo;
+	private static List<Usuario> usuarios;
 
 	/**
 	 * Create the frame.
@@ -212,45 +210,71 @@ public class UserRegistrationView extends JFrame {
 			if (o == btnConfirmar) {
 				if (!textUsername.getText().isEmpty() && !textPassword.getText().isEmpty()
 						&& !textNombre.getText().isEmpty() && !textApellido.getText().isEmpty()
-						&& !textEmail.getText().isEmpty() ) {
-					if(textEmail.getText().matches("[a-zA-Z]+@(mecanico|taxista)\\.com")) {
-						if (rdbtnMecanico.isSelected() || rdbtnTaxista.isSelected()) {
-							try {
+						&& !textEmail.getText().isEmpty()) {
+					if (!checkUsuarioExiste()) {
+						if (textEmail.getText().matches("[a-zA-Z]+@(mecanico|taxista)\\.com")) {
+							if (rdbtnMecanico.isSelected() || rdbtnTaxista.isSelected()) {
+								try {
 
-								nuevoUsuario.setNombre(textNombre.getText());
-								nuevoUsuario.setApellido(textApellido.getText());
-								nuevoUsuario.setPassword(textPassword.getText());
-								nuevoUsuario.setUsername(textUsername.getText());
-								nuevoUsuario.setEmail(textEmail.getText());
-								nuevoUsuario.setRol(rdbtnMecanico.isSelected() ? "mecanico" : "taxista");
-								controller.save(Conexion.obtener(), nuevoUsuario);
-								if (nuevoUsuario.getId() == null) {
-									dispose();
-									new LoginView();
-									JOptionPane.showMessageDialog(null, "Usuario añadido con exito");
-								} else {
-									dispose();
-									new AdminView(usuarioActivo);
-									JOptionPane.showMessageDialog(null, "Usuario editado con exito");
+									nuevoUsuario.setNombre(textNombre.getText());
+									nuevoUsuario.setApellido(textApellido.getText());
+									nuevoUsuario.setPassword(textPassword.getText());
+									nuevoUsuario.setUsername(textUsername.getText());
+									nuevoUsuario.setEmail(textEmail.getText());
+									nuevoUsuario.setRol(rdbtnMecanico.isSelected() ? "mecanico" : "taxista");
+									controller.save(Conexion.obtener(), nuevoUsuario);
+									if (nuevoUsuario.getId() == null) {
+										dispose();
+										new LoginView();
+										JOptionPane.showMessageDialog(null, "Usuario añadido con exito");
+									} else {
+										dispose();
+										new AdminView(usuarioActivo);
+										JOptionPane.showMessageDialog(null, "Usuario editado con exito");
+									}
+								} catch (ClassNotFoundException e1) {
+									// TODO Auto-generated catch block
+									JOptionPane.showMessageDialog(null, "Ha surgido un error al registrar el usuario");
+								} catch (SQLException e1) {
+									// TODO Auto-generated catch block
+									JOptionPane.showMessageDialog(null, "Ha surgido un error al registrar el usuario");
 								}
-							} catch (ClassNotFoundException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (SQLException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+							} else {
+								JOptionPane.showMessageDialog(null, "No esta seleccionado el campo ROL");
 							}
 						} else {
-							JOptionPane.showMessageDialog(null, "No esta seleccionado el campo ROL");
+							JOptionPane.showMessageDialog(null,
+									"Email incorrecto, nombre@mecanico.com o nombre@taxista.com", "Error",
+									JOptionPane.ERROR_MESSAGE);
 						}
-					}else {
-						JOptionPane.showMessageDialog(null, "Email incorrecto, nombre@mecanico.com o nombre@taxista.com", "Error", JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "El username elegido ya existe", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
-					
 				} else {
 					JOptionPane.showMessageDialog(null, "Faltan campos por rellenar");
 				}
 			}
+		}
+
+		private boolean checkUsuarioExiste() {
+
+			try {
+				usuarios = controller.getAllUsers(Conexion.obtener());
+
+				for (Usuario u : usuarios) {
+					if (u.getUsername().equalsIgnoreCase(textUsername.getText())) {
+						return true;
+					}
+				}
+
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null,
+						"Ha surgido un error y no se ha podido conectar con la base de datos");
+			}
+
+			return false;
 		}
 
 		@Override
