@@ -9,6 +9,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.Reparacion;
 import model.Usuario;
 
@@ -42,7 +44,7 @@ public class ReparacionController {
 			consulta.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se ha podido guardar el registro");
 		}
 	}
 
@@ -53,15 +55,16 @@ public class ReparacionController {
 			consulta.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		}
 	}
 
-	public List<Reparacion> getAllReparaciones(Connection conexion,Usuario u) {
+	public List<Reparacion> getAllReparaciones(Connection conexion, Usuario u) {
 		List<Reparacion> reparaciones = new ArrayList<Reparacion>();
 		try {
-			PreparedStatement consulta = conexion.prepareStatement(
-					"SELECT id,fecha,hora,descripcion,coste,id_usuario,id_vehiculo FROM " + this.tabla + " WHERE id_usuario = ?");
+			PreparedStatement consulta = conexion
+					.prepareStatement("SELECT id,fecha,hora,descripcion,coste,id_usuario,id_vehiculo FROM " + this.tabla
+							+ " WHERE id_usuario = ?");
 			consulta.setInt(1, u.getId());
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
@@ -71,7 +74,7 @@ public class ReparacionController {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		}
 
 		return reparaciones;

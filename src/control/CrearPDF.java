@@ -143,7 +143,7 @@ public class CrearPDF {
 
 		} catch (IOException | DocumentException | ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se ha podido generar el PDF");
 		} finally {
 			if (documento.isOpen()) {
 				JOptionPane.showMessageDialog(null, "PDF creado con exito");
@@ -186,7 +186,7 @@ public class CrearPDF {
 			tabla.setWidthPercentage(100);
 			tabla.setSpacingBefore(10f);
 			tabla.setSpacingAfter(10f);
-			
+
 			String[] cabeceras = { "Fecha", "Hora", "Coste de la reparacion", "Vehiculo", "Taxista" };
 			for (String string : cabeceras) {
 				PdfPCell celda = new PdfPCell(new Phrase(string, FuenteEncabezado));
@@ -197,14 +197,14 @@ public class CrearPDF {
 			}
 
 			for (int i = 0; i < modelo.getRowCount(); i++) {
-			    for (int j = 0; j < modelo.getColumnCount(); j++) {
-			        Object valor = modelo.getValueAt(i, j);
-			        tabla.addCell(new PdfPCell(new Phrase(valor != null ? valor.toString() : "", FuenteTabla)));
-			    }
+				for (int j = 0; j < modelo.getColumnCount(); j++) {
+					Object valor = modelo.getValueAt(i, j);
+					tabla.addCell(new PdfPCell(new Phrase(valor != null ? valor.toString() : "", FuenteTabla)));
+				}
 			}
 
 			documento.add(tabla);
-			
+
 			Paragraph firmas = new Paragraph();
 			firmas.add(new Chunk("Firma Mecánico", FuenteSubTitulo));
 			firmas.add(new Chunk("                         "));
@@ -254,7 +254,7 @@ public class CrearPDF {
 			documento.add(gracias);
 		} catch (IOException | DocumentException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se ha podido generar el PDF");
 		} finally {
 			if (documento.isOpen()) {
 				JOptionPane.showMessageDialog(null, "PDF creado con exito");

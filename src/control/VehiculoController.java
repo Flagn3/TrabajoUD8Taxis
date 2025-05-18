@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.Usuario;
 import model.Vehiculo;
 
@@ -44,18 +46,17 @@ public class VehiculoController {
 		}
 	}
 
-	public List<Vehiculo> getAllVehiculos(Connection conexion, Usuario u) throws SQLException {
+	public List<Vehiculo> getAllVehiculos(Connection conexion) throws SQLException {
 		List<Vehiculo> vehiculos = new ArrayList<>();
 
 		try {
-			PreparedStatement consulta = conexion
-					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado, reparacion FROM " + this.tabla
-							+ " WHERE id_usuario = ? AND reparacion = 0");
-			consulta.setInt(1, u.getId());
+			PreparedStatement consulta = conexion.prepareStatement(
+					"SELECT id, id_usuario, matricula, modelo, marca, estado, reparacion FROM " + this.tabla);
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				Vehiculo v = new Vehiculo(resultado.getInt("Id"), resultado.getInt("id_usuario"),
-						resultado.getString("matricula"), resultado.getString("modelo"), resultado.getString("marca"), resultado.getInt("estado"), resultado.getBoolean("reparacion"));
+						resultado.getString("matricula"), resultado.getString("modelo"), resultado.getString("marca"),
+						resultado.getInt("estado"), resultado.getBoolean("reparacion"));
 				vehiculos.add(v);
 			}
 		} catch (SQLException ex) {
@@ -63,17 +64,40 @@ public class VehiculoController {
 		}
 		return vehiculos;
 	}
-	
+
+	public List<Vehiculo> getAllVehiculosUsuario(Connection conexion, Usuario u) throws SQLException {
+		List<Vehiculo> vehiculos = new ArrayList<>();
+
+		try {
+			PreparedStatement consulta = conexion
+					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado, reparacion FROM "
+							+ this.tabla + " WHERE id_usuario = ? AND reparacion = 0");
+			consulta.setInt(1, u.getId());
+			ResultSet resultado = consulta.executeQuery();
+			while (resultado.next()) {
+				Vehiculo v = new Vehiculo(resultado.getInt("Id"), resultado.getInt("id_usuario"),
+						resultado.getString("matricula"), resultado.getString("modelo"), resultado.getString("marca"),
+						resultado.getInt("estado"), resultado.getBoolean("reparacion"));
+				vehiculos.add(v);
+			}
+		} catch (SQLException ex) {
+			throw new SQLException(ex);
+		}
+		return vehiculos;
+	}
+
 	public List<Vehiculo> getAllVehiculosTaller(Connection conexion) throws SQLException {
 		List<Vehiculo> vehiculos = new ArrayList<>();
 
 		try {
 			PreparedStatement consulta = conexion
-					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado, reparacion FROM " + this.tabla + " WHERE reparacion != 0");
+					.prepareStatement("SELECT id, id_usuario, matricula, modelo, marca, estado, reparacion FROM "
+							+ this.tabla + " WHERE reparacion != 0");
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				Vehiculo v = new Vehiculo(resultado.getInt("Id"), resultado.getInt("id_usuario"),
-						resultado.getString("matricula"), resultado.getString("modelo"), resultado.getString("marca"), resultado.getInt("estado"), resultado.getBoolean("reparacion"));
+						resultado.getString("matricula"), resultado.getString("modelo"), resultado.getString("marca"),
+						resultado.getInt("estado"), resultado.getBoolean("reparacion"));
 				vehiculos.add(v);
 			}
 		} catch (SQLException ex) {
@@ -95,17 +119,17 @@ public class VehiculoController {
 	public Vehiculo getVehiculo(Connection conexion, int id) {
 		Vehiculo vehiculo = null;
 		try {
-			PreparedStatement consulta = conexion.prepareStatement(
-					"SELECT * FROM " + this.tabla + " WHERE id = ?");
+			PreparedStatement consulta = conexion.prepareStatement("SELECT * FROM " + this.tabla + " WHERE id = ?");
 			consulta.setInt(1, id);
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				vehiculo = new Vehiculo(id, resultado.getInt("id_usuario"), resultado.getString("matricula"),
-						resultado.getString("modelo"), resultado.getString("marca"), 100, resultado.getBoolean("reparacion"));
+						resultado.getString("modelo"), resultado.getString("marca"), 100,
+						resultado.getBoolean("reparacion"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		}
 
 		return vehiculo;

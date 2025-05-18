@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.Usuario;
 import model.Vehiculo;
 
@@ -40,7 +42,7 @@ public class UserController {
 			consulta.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		}
 	}
 
@@ -51,7 +53,7 @@ public class UserController {
 			consulta.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		}
 	}
 
@@ -85,7 +87,7 @@ public class UserController {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error al conectar con la base de datos");
 		}
 
 		return usuario;

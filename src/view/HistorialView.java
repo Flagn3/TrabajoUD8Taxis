@@ -204,7 +204,7 @@ public class HistorialView extends JFrame {
 			reparaciones = reparacionController.getAllReparaciones(Conexion.obtener(), usuarioActivo);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido recuperar los registros");
 		}
 
 		modeloFiltrado = new DefaultTableModel();
@@ -223,7 +223,7 @@ public class HistorialView extends JFrame {
 							u.getNombre() + " " + u.getApellido() });
 				}
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido recuperar los registros");
 			}
 		}
 

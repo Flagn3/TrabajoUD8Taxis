@@ -44,7 +44,7 @@ public class AdminView extends JFrame {
 	 */
 	public AdminView(Usuario u) {
 		this.usuarioActivo = u;
-		
+
 		setTitle("Panel de Administrador");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,7 +54,7 @@ public class AdminView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
 		contentPane.setBackground(new Color(245, 245, 245));
 		setContentPane(contentPane);
-		
+
 		ImageIcon iconoVentana = new ImageIcon("file/TaxiCarga.png");
 		setIconImage(iconoVentana.getImage());
 
@@ -138,10 +138,10 @@ public class AdminView extends JFrame {
 
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
-			JOptionPane.showMessageDialog(this, "Ha surgido un error y no se han podido recuperar los registros");
+			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido recuperar los registros");
 		} catch (ClassNotFoundException ex) {
 			System.out.println(ex);
-			JOptionPane.showMessageDialog(this, "Ha surgido un error y no se han podido recuperar los registros");
+			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido recuperar los registros");
 		}
 	}
 
@@ -168,10 +168,12 @@ public class AdminView extends JFrame {
 							JOptionPane.showMessageDialog(null, "Usuario eliminado con éxito");
 						} catch (ClassNotFoundException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null,
+									"Ha surgido un error y no se han podido eliminar el registro");
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null,
+									"Ha surgido un error y no se han podido eliminar el registro");
 						}
 					}
 				} else {

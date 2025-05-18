@@ -79,6 +79,10 @@ public class EditVehiculoView extends JFrame {
 		txtMarca.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		txtMarca.setBounds(120, 130, 200, 25);
 
+		txtMatricula.setText(vehiculoSeleccionado.getMatricula());
+		txtMarca.setText(vehiculoSeleccionado.getMarca());
+		txtModelo.setText(vehiculoSeleccionado.getModelo());
+
 		guardar = new JButton("Guardar");
 		guardar.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		guardar.setForeground(Color.WHITE);
@@ -124,17 +128,18 @@ public class EditVehiculoView extends JFrame {
 						&& !txtMarca.getText().isEmpty()) {
 
 					if (txtMatricula.getText().matches("[0-9]{4}[-][^aeiouAEIOUa-z]{3}")) {
-						Vehiculo v = new Vehiculo(vehiculoSeleccionado.getId(),usuarioActivo.getId(), txtMatricula.getText(), txtModelo.getText(),
-								txtMarca.getText(), vehiculoSeleccionado.getEstado(), vehiculoSeleccionado.isEnReparacion());
+						Vehiculo v = new Vehiculo(vehiculoSeleccionado.getId(), usuarioActivo.getId(),
+								txtMatricula.getText(), txtModelo.getText(), txtMarca.getText(),
+								vehiculoSeleccionado.getEstado(), vehiculoSeleccionado.isEnReparacion());
 
 						try {
 							controller.save(Conexion.obtener(), v);
 						} catch (ClassNotFoundException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido guardar el registro");
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido guardar el registro");
 						}
 						dispose();
 						new GestionarVehiculosView(usuarioActivo);

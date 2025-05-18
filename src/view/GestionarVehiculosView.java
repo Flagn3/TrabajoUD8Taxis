@@ -40,7 +40,7 @@ public class GestionarVehiculosView extends JFrame {
 
 	public GestionarVehiculosView(Usuario u) {
 		this.usuarioActivo = u;
-		
+
 		setTitle("Panel de Gestion de Vehiculos");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,7 +95,6 @@ public class GestionarVehiculosView extends JFrame {
 		repararVehiculo.setPreferredSize(new Dimension(150, 35));
 		panelArriba.add(repararVehiculo);
 
-		
 		ImageIcon img = new ImageIcon("file/back.jpg");
 		inicio = new JButton(img);
 		inicio.setBounds(530, 78, 40, 40);
@@ -133,7 +132,7 @@ public class GestionarVehiculosView extends JFrame {
 
 	private void showVehiculos() {
 		try {
-			this.vehiculos = this.controller.getAllVehiculos(Conexion.obtener(), usuarioActivo);
+			this.vehiculos = this.controller.getAllVehiculosUsuario(Conexion.obtener(), usuarioActivo);
 			tablaVehiculos.setModel(new javax.swing.table.DefaultTableModel(new Object[][] {
 
 			}, new String[] { "Matricula", "Modelo", "Marca", "Estado" }));
@@ -145,11 +144,9 @@ public class GestionarVehiculosView extends JFrame {
 			}
 
 		} catch (SQLException ex) {
-			System.out.println(ex.getMessage());
-			JOptionPane.showMessageDialog(this, "Ha surgido un error y no se han podido recuperar los registros");
+			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido recuperar los registros");
 		} catch (ClassNotFoundException ex) {
-			System.out.println(ex);
-			JOptionPane.showMessageDialog(this, "Ha surgido un error y no se han podido recuperar los registros");
+			JOptionPane.showMessageDialog(null, "Ha surgido un error y no se han podido recuperar los registros");
 		}
 	}
 
@@ -176,10 +173,12 @@ public class GestionarVehiculosView extends JFrame {
 							JOptionPane.showMessageDialog(null, "Vehículo Eliminado con éxito");
 						} catch (ClassNotFoundException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null,
+									"Ha surgido un error y no se ha podido eliminar el registro");
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null,
+									"Ha surgido un error y no se ha podido eliminar el registro");
 						}
 					}
 				} else {
@@ -205,10 +204,12 @@ public class GestionarVehiculosView extends JFrame {
 						JOptionPane.showMessageDialog(null, "Vehículo mandado a reparar");
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null,
+								"Ha surgido un error y no se ha podido enviar el vehículo a reparar");
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null,
+								"Ha surgido un error y no se ha podido enviar el vehículo a reparar");
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Selecciona un vehículo", "Error", JOptionPane.ERROR_MESSAGE);
