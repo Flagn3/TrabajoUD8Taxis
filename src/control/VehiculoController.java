@@ -124,7 +124,7 @@ public class VehiculoController {
 			ResultSet resultado = consulta.executeQuery();
 			while (resultado.next()) {
 				vehiculo = new Vehiculo(id, resultado.getInt("id_usuario"), resultado.getString("matricula"),
-						resultado.getString("modelo"), resultado.getString("marca"), 100,
+						resultado.getString("modelo"), resultado.getString("marca"), resultado.getInt("estado"),
 						resultado.getBoolean("reparacion"));
 			}
 		} catch (SQLException e) {
